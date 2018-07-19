@@ -44,6 +44,6 @@ CompletionGuy >> visitMessageNode: aRBMessageNode [
 CompletionGuy >> visitVariableNode: aRBVariableNode [ 
 	
 	^ (self select: Smalltalk globals keys beginningWith: aRBVariableNode name) , 
-	  (self select: currentClass instanceVariables beginningWith: aRBVariableNode name) ,
+	  (self select: (currentClass allSlots collect: [ :each | each name ]) beginningWith: aRBVariableNode name) ,
 		(self select: aRBVariableNode methodNode temporaryNames beginningWith: aRBVariableNode name)
 ]
