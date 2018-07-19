@@ -2,10 +2,16 @@ Class {
 	#name : #CompletionGuy,
 	#superclass : #Object,
 	#instVars : [
-		'insertedCharacter'
+		'insertedCharacter',
+		'currentClass'
 	],
 	#category : #NewCompletion
 }
+
+{ #category : #accessing }
+CompletionGuy >> completionContext: aClass [ 
+	currentClass := aClass.
+]
 
 { #category : #completion }
 CompletionGuy >> completionListForNode: aRBNode inserting: aCharacter [
@@ -15,21 +21,29 @@ CompletionGuy >> completionListForNode: aRBNode inserting: aCharacter [
 ]
 
 { #category : #visiting }
+CompletionGuy >> select: aCollection beginningWith: aString [
+	^ aCollection select: [ :each | each beginsWith: aString asString , insertedCharacter asString ]
+	
+]
+
+{ #category : #visiting }
 CompletionGuy >> visitLiteralNode: aRBLiteralValueNode [
 	
 	(aRBLiteralValueNode value isKindOf: Symbol) ifFalse: [ ^#() ].
 	"return all symbols that start with value concatenated with character"
-	^ Symbol allSymbols select: [ :each | each beginsWith: aRBLiteralValueNode value asString, insertedCharacter asString ]	
+	^ self select: Symbol allSymbols beginningWith: aRBLiteralValueNode value
 ]
 
 { #category : #visiting }
 CompletionGuy >> visitMessageNode: aRBMessageNode [
 
-	^ Symbol allSymbols select: [ :each | each beginsWith: aRBMessageNode selector asString , insertedCharacter asString ]
+	^ self select: Symbol allSymbols beginningWith: aRBMessageNode selector
 ]
 
 { #category : #visiting }
 CompletionGuy >> visitVariableNode: aRBVariableNode [ 
 	
-	^ Smalltalk globals keys select: [ :each | each beginsWith: aRBVariableNode name asString , insertedCharacter asString ]
+	^ (self select: Smalltalk globals keys beginningWith: aRBVariableNode name) , 
+	  (self select: currentClass instanceVariables beginningWith: aRBVariableNode name) ,
+		(self select: aRBVariableNode methodNode temporaryNames beginningWith: aRBVariableNode name)
 ]

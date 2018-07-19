@@ -15,10 +15,12 @@ CompletionTest >> complete: aString with: aCharacter [
 
 { #category : #helper }
 CompletionTest >> complete: aString with: aCharacter inClass: aClass [
-	| node |
+	| node guy |
 	
 	node := self findNodeOf: aString.
-	^ CompletionGuy new completionListForNode: node inserting: aCharacter
+	guy := CompletionGuy new.
+	guy completionContext: aClass.
+	^guy completionListForNode: node inserting: aCharacter . 
 ]
 
 { #category : #helper }
@@ -35,13 +37,25 @@ CompletionTest >> findNodeOf: aString [
 CompletionTest >> testCompleteInstanceVariable [
    "for later"
 	| result |
-	result := self complete: 'dd |myTemp| my' with: $T.
-	self assert: (result includes: 'myTemp').
+	result := self complete: 'dd myInstance' with: $V inClass: CompletionMockClass.
+	self assert: (result includes: 'myInstanceVariable').
 	"add metod to RBVariableNode.
 	how to get all temps: the class) -- instanceVariableNames
 	but we need to set a name on the ast somehow.
-	"
+	"	
 	
+]
+
+{ #category : #tests }
+CompletionTest >> testCompleteInstanceVariableInSubClass [
+   "for later"
+	| result |
+	result := self complete: 'dd myInstance' with: $V inClass: CompletionMockSubClass.
+	self assert: (result includes: 'myInstanceVariable').
+	"add metod to RBVariableNode.
+	how to get all temps: the class) -- instanceVariableNames
+	but we need to set a name on the ast somehow.
+	"	
 	
 ]
 
@@ -81,6 +95,18 @@ CompletionTest >> testCompleteVariableGlobal [
 CompletionTest >> testCompleteVariableTemp [
 	| result |
 	result := self complete: 'dd |myTemp| my' with: $T.
+	self assert: (result includes: 'myTemp').
+	"add method to RBVariableNode.
+	how to get all temps: RBMethodnode (ast root) -- temporaryNames.
+	"
+	
+	
+]
+
+{ #category : #tests }
+CompletionTest >> testCompleteVariableTempInAssignment [
+	| result |
+	result := self complete: 'dd |myTemp aa | aa := my' with: $T.
 	self assert: (result includes: 'myTemp').
 	"add method to RBVariableNode.
 	how to get all temps: RBMethodnode (ast root) -- temporaryNames.
