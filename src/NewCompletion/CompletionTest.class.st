@@ -59,7 +59,6 @@ CompletionTest >> testCompleteInstanceVariable [
 	| result |
 	result := self complete: 'dd myInstance' with: $V inClass: CompletionMockClass.
 	self assert: (result includes: 'myInstanceVariable').
-	self halt.
 	"add metod to RBVariableNode.
 	how to get all temps: the class) -- instanceVariableNames
 	but we need to set a name on the ast somehow.
