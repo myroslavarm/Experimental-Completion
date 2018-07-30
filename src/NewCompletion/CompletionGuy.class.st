@@ -14,15 +14,14 @@ CompletionGuy >> completionContext: aClass [
 ]
 
 { #category : #completion }
-CompletionGuy >> completionListForNode: aRBNode inserting: aCharacter [
+CompletionGuy >> completionListForNode: aRBNode [
 
-	insertedCharacter := aCharacter.
 	^ aRBNode acceptVisitor: self
 ]
 
 { #category : #visiting }
 CompletionGuy >> select: aCollection beginningWith: aString [
-	^ aCollection select: [ :each | each beginsWith: aString asString , insertedCharacter asString ]
+	^ aCollection select: [ :each | each beginsWith: aString asString ]
 	
 ]
 

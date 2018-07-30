@@ -19,12 +19,12 @@ CompletionListMorphTest >> testMorphCreation [
 
 { #category : #tests }
 CompletionListMorphTest >> testMorphCreation2 [
-	| morph aString anInteger node guy aClass aCharacter options joiner |
+	| morph node guy options joiner |
 	joiner := CompletionJoinerWithParameters new.
 	node := joiner findNodeOf: 'dd |anInstanceVariable| a' withOffset: 25.
 	guy := CompletionGuy new.
 	guy completionContext: UndefinedObject.
-	options := guy completionListForNode: node inserting: $n . 
+	options := guy completionListForNode: node. 
 	
 	morph := CompletionListMorph new.
 	morph initializeWith: options.

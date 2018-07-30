@@ -8,31 +8,30 @@ Class {
 }
 
 { #category : #helper }
-CompletionJoinerWithParameters >> complete: aString with: aCharacter [
+CompletionJoinerWithParameters >> complete: aString [
 	
-	^ self complete: aString with: aCharacter inClass: UndefinedObject
+	^ self complete: aString inClass: UndefinedObject
 ]
 
 { #category : #helper }
-CompletionJoinerWithParameters >> complete: aString with: aCharacter inClass: aClass [
+CompletionJoinerWithParameters >> complete: aString inClass: aClass [
 	
-	^ self complete: aString with: aCharacter offset: aString size inClass: aClass
+	^ self complete: aString offset: aString size inClass: aClass
 ]
 
 { #category : #completion }
-CompletionJoinerWithParameters >> complete: aString with: aCharacter offset: anInteger [ 
+CompletionJoinerWithParameters >> complete: aString offset: anInteger [ 
 	
-	^ self complete: aString with: aCharacter offset: anInteger inClass: UndefinedObject.
+	^ self complete: aString offset: anInteger inClass: UndefinedObject.
 ]
 
 { #category : #completion }
-CompletionJoinerWithParameters >> complete: aString with: aCharacter offset: anInteger inClass: aClass [
+CompletionJoinerWithParameters >> complete: aString offset: anInteger inClass: aClass [
 	| node guy |
-	
 	node := self findNodeOf: aString withOffset: anInteger.
 	guy := CompletionGuy new.
 	guy completionContext: aClass.
-	^ guy completionListForNode: node inserting: aCharacter . 
+	^ guy completionListForNode: node. 
 ]
 
 { #category : #helper }

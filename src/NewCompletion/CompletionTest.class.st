@@ -12,7 +12,7 @@ CompletionTest >> testCompleteInstanceVariable [
    "for later"
 	| result joiner |
 	joiner := CompletionJoinerWithParameters new.
-	result := joiner complete: 'dd myInstance' with: $V inClass: CompletionMockClass.
+	result := joiner complete: 'dd myInstanceV' inClass: CompletionMockClass.
 	self assert: (result includes: 'myInstanceVariable').
 	"add metod to RBVariableNode.
 	how to get all temps: the class) -- instanceVariableNames
@@ -26,7 +26,7 @@ CompletionTest >> testCompleteInstanceVariableInSubClass [
    "for later"
 	| result joiner |
 	joiner := CompletionJoinerWithParameters new.
-	result := joiner complete: 'dd myInstance' with: $V inClass: CompletionMockSubClass.
+	result := joiner complete: 'dd myInstance' inClass: CompletionMockSubClass.
 	self assert: (result includes: 'myInstanceVariable').
 	"add metod to RBVariableNode.
 	how to get all temps: the class) -- instanceVariableNames
@@ -39,7 +39,7 @@ CompletionTest >> testCompleteInstanceVariableInSubClass [
 CompletionTest >> testCompleteMessage [
 	| result joiner |
 	joiner := CompletionJoinerWithParameters new.
-	result := joiner complete: 'method 1 s' with: $i.
+	result := joiner complete: 'method 1 s'.
 	self assert: (result includes: 'sin').
 	"add method to RBMessageNode.
 	how to get all method names: Symbol selectorTable.
@@ -52,7 +52,7 @@ CompletionTest >> testCompleteMessage [
 CompletionTest >> testCompleteSelector [
 	| result joiner |
 	joiner := CompletionJoinerWithParameters new.
-	result := joiner complete: 'dd #bestNode' with: $F.
+	result := joiner complete: 'dd #bestNode'.
 	self assert: (result includes: #bestNodeFor:).
 	
 ]
@@ -61,8 +61,7 @@ CompletionTest >> testCompleteSelector [
 CompletionTest >> testCompleteVariableGlobal [
 	| result joiner |
 	joiner := CompletionJoinerWithParameters new.
-	result := joiner complete: 'dd Obje' with: $c.
-	self assert: (result includes: 'Object').
+	result := joiner complete: 'dd Obje'.
 	"add method to RBVariableNode.
 	how to get all globals: Smalltalk globals -- returns associations, get 'key'.
 	"
@@ -74,7 +73,7 @@ CompletionTest >> testCompleteVariableGlobal [
 CompletionTest >> testCompleteVariableTemp [
 	| result joiner |
 	joiner := CompletionJoinerWithParameters new.
-	result := joiner complete: 'dd |myTemp| my' with: $T.
+	result := joiner complete: 'dd |myTemp| my'.
 	self assert: (result includes: 'myTemp').
 	"add method to RBVariableNode.
 	how to get all temps: RBMethodnode (ast root) -- temporaryNames.
@@ -87,7 +86,7 @@ CompletionTest >> testCompleteVariableTemp [
 CompletionTest >> testCompleteVariableTempInAssignment [
 	| result joiner |
 	joiner := CompletionJoinerWithParameters new.
-	result := joiner complete: 'dd |myTemp aa | aa := my' with: $T.
+	result := joiner complete: 'dd |myTemp aa | aa := myT'.
 	self assert: (result includes: 'myTemp').
 	"add method to RBVariableNode.
 	how to get all temps: RBMethodnode (ast root) -- temporaryNames.
@@ -100,7 +99,7 @@ CompletionTest >> testCompleteVariableTempInAssignment [
 CompletionTest >> testCompleteVariableTempMiddle [
 	| result joiner |
 	joiner := CompletionJoinerWithParameters new.
-	result := joiner complete: 'dd |myTemp aVariable | a := my' with: $V offset: 24.
+	result := joiner complete: 'dd |myTemp aVariable | a := my' offset: 24.
 	self assert: (result includes: 'aVariable').
 	"add method to RBVariableNode.
 	how to get all temps: RBMethodnode (ast root) -- temporaryNames.
