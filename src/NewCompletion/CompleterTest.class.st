@@ -1,66 +1,66 @@
 Class {
-	#name : #CompletionJoinerTest,
+	#name : #CompleterTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'ast',
-		'joiner'
+		'completer'
 	],
 	#category : #'NewCompletion-Model'
 }
 
 { #category : #tests }
-CompletionJoinerTest >> setUp [
-	joiner := CompletionJoiner new.
+CompleterTest >> setUp [
+	completer := Completer new.
 	
 	
 ]
 
 { #category : #tests }
-CompletionJoinerTest >> testCompleteClassName [
+CompleterTest >> testCompleteClassName [
 	| result|
-	result := joiner complete: 'methodName
+	result := completer complete: 'methodName
 	 Obje'.
 	self assert: (result includes: 'Object').
 	
 ]
 
 { #category : #tests }
-CompletionJoinerTest >> testCompleteGlobalVariable [
+CompleterTest >> testCompleteGlobalVariable [
 	| result|
-	result := joiner complete: 'methodName
+	result := completer complete: 'methodName
 	 Tran'.
 	self assert: (result includes: 'Transcript').
 	
 ]
 
 { #category : #tests }
-CompletionJoinerTest >> testCompleteInstanceVariable [
+CompleterTest >> testCompleteInstanceVariable [
  
 	| result |
-	result := joiner complete: 'dd myInstanceV' inClass: CompletionMockClass.
+	result := completer complete: 'dd myInstanceV' inClass: CompletionMockClass.
 	self assert: (result includes: 'myInstanceVariable').
 	
 	
 ]
 
 { #category : #tests }
-CompletionJoinerTest >> testCompleteInstanceVariableInSubClass [
+CompleterTest >> testCompleteInstanceVariableInSubClass [
    
 	| result |
-	result := joiner complete: 'methodNames
+	result := completer complete: 'methodNames
 	 myInstance' inClass: CompletionMockSubClass.
 	self assert: (result includes: 'myInstanceVariable').
 	
-	result := joiner complete: 'methodNames
+	result := completer complete: 'methodNames
 	 qwerIn' inClass: CompletionMockSubClass.
 	self assert: (result isEmpty)
 	
 ]
 
 { #category : #tests }
-CompletionJoinerTest >> testCompleteMessage [
+CompleterTest >> testCompleteMessage [
 	| result|
-	result := joiner complete: 'methodName
+	result := completer complete: 'methodName
 	
 	1 s'.
 	self assert: (result includes: 'sin').
@@ -70,9 +70,9 @@ CompletionJoinerTest >> testCompleteMessage [
 ]
 
 { #category : #tests }
-CompletionJoinerTest >> testCompleteSelector [
+CompleterTest >> testCompleteSelector [
 	| result|
-	result := joiner complete: 'methodName
+	result := completer complete: 'methodName
 	
 	#bestNode'.
 	self assert: (result includes: #bestNodeFor:).
@@ -80,9 +80,9 @@ CompletionJoinerTest >> testCompleteSelector [
 ]
 
 { #category : #tests }
-CompletionJoinerTest >> testCompleteVariableTemp [
+CompleterTest >> testCompleteVariableTemp [
 	| result |
-	result := joiner complete: 'methodName
+	result := completer complete: 'methodName
 
 	 	|myTemp| 
 		my'.
@@ -93,9 +93,9 @@ CompletionJoinerTest >> testCompleteVariableTemp [
 ]
 
 { #category : #tests }
-CompletionJoinerTest >> testCompleteVariableTempInAssignment [
+CompleterTest >> testCompleteVariableTempInAssignment [
 	| result|
-	result := joiner complete: 'methodName 
+	result := completer complete: 'methodName 
 	
 	|myTemp aa | 
 	aa := myT'.
@@ -106,16 +106,16 @@ CompletionJoinerTest >> testCompleteVariableTempInAssignment [
 ]
 
 { #category : #tests }
-CompletionJoinerTest >> testCompleteVariableTempMiddle [
+CompleterTest >> testCompleteVariableTempMiddle [
 	"The completion should work if the user places its cursor in the middle of a n expression.
 	Here the cursor is after the a in the a := my"
 	| result |
-	result := joiner complete: 'methodName
+	result := completer complete: 'methodName
 	|myTemp aVariable | 
 	a := my' offset: 24.
 	self assert: (result includes: 'aVariable').
 	
-	result := joiner complete: 'methodName
+	result := completer complete: 'methodName
 	|myTemp aVariable | 
 	a := my' offset: 27.
 	self assert: (result includes: 'aVariable').

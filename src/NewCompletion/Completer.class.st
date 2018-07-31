@@ -1,5 +1,5 @@
 Class {
-	#name : #CompletionJoiner,
+	#name : #Completer,
 	#superclass : #Object,
 	#instVars : [
 		'ast'
@@ -8,25 +8,25 @@ Class {
 }
 
 { #category : #helper }
-CompletionJoiner >> complete: aString [
+Completer >> complete: aString [
 	
 	^ self complete: aString inClass: UndefinedObject
 ]
 
 { #category : #helper }
-CompletionJoiner >> complete: aString inClass: aClass [
+Completer >> complete: aString inClass: aClass [
 	
 	^ self complete: aString offset: aString size inClass: aClass
 ]
 
 { #category : #completion }
-CompletionJoiner >> complete: aString offset: anInteger [ 
+Completer >> complete: aString offset: anInteger [ 
 	
 	^ self complete: aString offset: anInteger inClass: UndefinedObject.
 ]
 
 { #category : #completion }
-CompletionJoiner >> complete: aString offset: anInteger inClass: aClass [
+Completer >> complete: aString offset: anInteger inClass: aClass [
 	| node guy |
 	node := self findNodeOf: aString withOffset: anInteger.
 	guy := CompletionGuy new.
@@ -35,7 +35,7 @@ CompletionJoiner >> complete: aString offset: anInteger inClass: aClass [
 ]
 
 { #category : #helper }
-CompletionJoiner >> findNodeOf: aString [
+Completer >> findNodeOf: aString [
 	
 	| offset node |	
 	ast := RBParser parseFaultyMethod: aString.
@@ -45,7 +45,7 @@ CompletionJoiner >> findNodeOf: aString [
 ]
 
 { #category : #helper }
-CompletionJoiner >> findNodeOf: aString withOffset: anInteger [ 
+Completer >> findNodeOf: aString withOffset: anInteger [ 
 	| node |	
 	ast := RBParser parseFaultyMethod: aString.
 	node := ast bestNodeFor: (anInteger to: anInteger).
@@ -53,7 +53,7 @@ CompletionJoiner >> findNodeOf: aString withOffset: anInteger [
 ]
 
 { #category : #completion }
-CompletionJoiner >> showListFor: aString nextCharacter: aCharacter offset: anInteger inClass: aClass [ 
+Completer >> showListFor: aString nextCharacter: aCharacter offset: anInteger inClass: aClass [ 
 
 	| node guy options morph |
 	node := self findNodeOf: aString withOffset: anInteger.
