@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'ast'
 	],
-	#category : #NewCompletion
+	#category : #'NewCompletion-UI'
 }
 
 { #category : #tests }
@@ -20,7 +20,7 @@ CompletionListMorphTest >> testMorphCreation [
 { #category : #tests }
 CompletionListMorphTest >> testMorphCreation2 [
 	| morph node guy options joiner |
-	joiner := CompletionJoinerWithParameters new.
+	joiner := CompletionJoiner new.
 	node := joiner findNodeOf: 'dd |anInstanceVariable| a' withOffset: 25.
 	guy := CompletionGuy new.
 	guy completionContext: UndefinedObject.

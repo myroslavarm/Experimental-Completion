@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'button',
 		'screen',
-		'resultList'
+		'resultList',
+		'classList'
 	],
 	#category : #NewCompletionSpec
 }
@@ -17,6 +18,7 @@ CompletionSpec class >> defaultSpec [
 			row newColumn: [ :leftColumn |
 				leftColumn
 					newRow: [ :newrow | newrow add: #screen ];
+					newRow: [ :newrow | newrow add: #classList ];
 					newRow: [ :newrow | newrow add: #button ]];
 			newColumn: [ :rightColumn | rightColumn add: #resultList ]];
 		yourself.
@@ -37,10 +39,20 @@ CompletionSpec >> button: anObject [
 CompletionSpec >> buttonPressed [
 	| joiner |
 	"resultList items: (1 to: 35 atRandom)"
-	joiner := CompletionJoinerWithParameters new.
-	resultList items: (joiner complete: screen text asString offset: screen getSelection last inClass: UndefinedObject)
+	joiner := CompletionJoiner new.
+	resultList items: (joiner complete: screen text asString offset: screen getSelection last inClass: classList selectedItem)
 	
 
+]
+
+{ #category : #accessing }
+CompletionSpec >> classList [
+	^ classList
+]
+
+{ #category : #accessing }
+CompletionSpec >> classList: anObject [
+	classList := anObject
 ]
 
 { #category : #initialization }
@@ -60,6 +72,8 @@ CompletionSpec >> initializeWidgets [
 
 	screen := self newText .
 	screen autoAccept: true.
+	classList := self newList .
+	classList items: (Smalltalk allClasses).
 	button := self newButton .
 	screen text: 'tryMethod |anInstanceVariable| a'.
 	button label: 'Click me'.

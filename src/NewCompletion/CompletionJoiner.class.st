@@ -1,32 +1,32 @@
 Class {
-	#name : #CompletionJoinerWithParameters,
+	#name : #CompletionJoiner,
 	#superclass : #Object,
 	#instVars : [
 		'ast'
 	],
-	#category : #NewCompletion
+	#category : #'NewCompletion-Model'
 }
 
 { #category : #helper }
-CompletionJoinerWithParameters >> complete: aString [
+CompletionJoiner >> complete: aString [
 	
 	^ self complete: aString inClass: UndefinedObject
 ]
 
 { #category : #helper }
-CompletionJoinerWithParameters >> complete: aString inClass: aClass [
+CompletionJoiner >> complete: aString inClass: aClass [
 	
 	^ self complete: aString offset: aString size inClass: aClass
 ]
 
 { #category : #completion }
-CompletionJoinerWithParameters >> complete: aString offset: anInteger [ 
+CompletionJoiner >> complete: aString offset: anInteger [ 
 	
 	^ self complete: aString offset: anInteger inClass: UndefinedObject.
 ]
 
 { #category : #completion }
-CompletionJoinerWithParameters >> complete: aString offset: anInteger inClass: aClass [
+CompletionJoiner >> complete: aString offset: anInteger inClass: aClass [
 	| node guy |
 	node := self findNodeOf: aString withOffset: anInteger.
 	guy := CompletionGuy new.
@@ -35,7 +35,7 @@ CompletionJoinerWithParameters >> complete: aString offset: anInteger inClass: a
 ]
 
 { #category : #helper }
-CompletionJoinerWithParameters >> findNodeOf: aString [
+CompletionJoiner >> findNodeOf: aString [
 	
 	| offset node |	
 	ast := RBParser parseFaultyMethod: aString.
@@ -45,7 +45,7 @@ CompletionJoinerWithParameters >> findNodeOf: aString [
 ]
 
 { #category : #helper }
-CompletionJoinerWithParameters >> findNodeOf: aString withOffset: anInteger [ 
+CompletionJoiner >> findNodeOf: aString withOffset: anInteger [ 
 	| node |	
 	ast := RBParser parseFaultyMethod: aString.
 	node := ast bestNodeFor: (anInteger to: anInteger).
@@ -53,7 +53,7 @@ CompletionJoinerWithParameters >> findNodeOf: aString withOffset: anInteger [
 ]
 
 { #category : #completion }
-CompletionJoinerWithParameters >> showListFor: aString nextCharacter: aCharacter offset: anInteger inClass: aClass [ 
+CompletionJoiner >> showListFor: aString nextCharacter: aCharacter offset: anInteger inClass: aClass [ 
 
 	| node guy options morph |
 	node := self findNodeOf: aString withOffset: anInteger.

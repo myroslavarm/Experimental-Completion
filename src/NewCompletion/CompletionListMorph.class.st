@@ -6,7 +6,7 @@ Class {
 		'list',
 		'options'
 	],
-	#category : #NewCompletion
+	#category : #'NewCompletion-UI'
 }
 
 { #category : #initialization }

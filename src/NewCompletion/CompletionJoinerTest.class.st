@@ -1,17 +1,17 @@
 Class {
-	#name : #CompletionTest,
+	#name : #CompletionJoinerTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'ast'
 	],
-	#category : #NewCompletion
+	#category : #'NewCompletion-Model'
 }
 
 { #category : #tests }
-CompletionTest >> testCompleteInstanceVariable [
+CompletionJoinerTest >> testCompleteInstanceVariable [
    "for later"
 	| result joiner |
-	joiner := CompletionJoinerWithParameters new.
+	joiner := CompletionJoiner new.
 	result := joiner complete: 'dd myInstanceV' inClass: CompletionMockClass.
 	self assert: (result includes: 'myInstanceVariable').
 	"add metod to RBVariableNode.
@@ -22,10 +22,10 @@ CompletionTest >> testCompleteInstanceVariable [
 ]
 
 { #category : #tests }
-CompletionTest >> testCompleteInstanceVariableInSubClass [
+CompletionJoinerTest >> testCompleteInstanceVariableInSubClass [
    "for later"
 	| result joiner |
-	joiner := CompletionJoinerWithParameters new.
+	joiner := CompletionJoiner new.
 	result := joiner complete: 'dd myInstance' inClass: CompletionMockSubClass.
 	self assert: (result includes: 'myInstanceVariable').
 	"add metod to RBVariableNode.
@@ -36,9 +36,9 @@ CompletionTest >> testCompleteInstanceVariableInSubClass [
 ]
 
 { #category : #tests }
-CompletionTest >> testCompleteMessage [
+CompletionJoinerTest >> testCompleteMessage [
 	| result joiner |
-	joiner := CompletionJoinerWithParameters new.
+	joiner := CompletionJoiner new.
 	result := joiner complete: 'method 1 s'.
 	self assert: (result includes: 'sin').
 	"add method to RBMessageNode.
@@ -49,18 +49,18 @@ CompletionTest >> testCompleteMessage [
 ]
 
 { #category : #tests }
-CompletionTest >> testCompleteSelector [
+CompletionJoinerTest >> testCompleteSelector [
 	| result joiner |
-	joiner := CompletionJoinerWithParameters new.
+	joiner := CompletionJoiner new.
 	result := joiner complete: 'dd #bestNode'.
 	self assert: (result includes: #bestNodeFor:).
 	
 ]
 
 { #category : #tests }
-CompletionTest >> testCompleteVariableGlobal [
+CompletionJoinerTest >> testCompleteVariableGlobal [
 	| result joiner |
-	joiner := CompletionJoinerWithParameters new.
+	joiner := CompletionJoiner new.
 	result := joiner complete: 'dd Obje'.
 	"add method to RBVariableNode.
 	how to get all globals: Smalltalk globals -- returns associations, get 'key'.
@@ -70,9 +70,9 @@ CompletionTest >> testCompleteVariableGlobal [
 ]
 
 { #category : #tests }
-CompletionTest >> testCompleteVariableTemp [
+CompletionJoinerTest >> testCompleteVariableTemp [
 	| result joiner |
-	joiner := CompletionJoinerWithParameters new.
+	joiner := CompletionJoiner new.
 	result := joiner complete: 'dd |myTemp| my'.
 	self assert: (result includes: 'myTemp').
 	"add method to RBVariableNode.
@@ -83,9 +83,9 @@ CompletionTest >> testCompleteVariableTemp [
 ]
 
 { #category : #tests }
-CompletionTest >> testCompleteVariableTempInAssignment [
+CompletionJoinerTest >> testCompleteVariableTempInAssignment [
 	| result joiner |
-	joiner := CompletionJoinerWithParameters new.
+	joiner := CompletionJoiner new.
 	result := joiner complete: 'dd |myTemp aa | aa := myT'.
 	self assert: (result includes: 'myTemp').
 	"add method to RBVariableNode.
@@ -96,9 +96,9 @@ CompletionTest >> testCompleteVariableTempInAssignment [
 ]
 
 { #category : #tests }
-CompletionTest >> testCompleteVariableTempMiddle [
+CompletionJoinerTest >> testCompleteVariableTempMiddle [
 	| result joiner |
-	joiner := CompletionJoinerWithParameters new.
+	joiner := CompletionJoiner new.
 	result := joiner complete: 'dd |myTemp aVariable | a := my' offset: 24.
 	self assert: (result includes: 'aVariable').
 	"add method to RBVariableNode.
