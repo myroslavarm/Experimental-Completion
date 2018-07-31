@@ -3,3 +3,9 @@ Class {
 	#superclass : #CompletionMockClass,
 	#category : #NewCompletion
 }
+
+{ #category : #'as yet unclassified' }
+CompletionMockSubClass >> fooo [
+
+	^ 42
+]

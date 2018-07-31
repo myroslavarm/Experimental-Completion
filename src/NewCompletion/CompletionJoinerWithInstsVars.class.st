@@ -63,7 +63,7 @@ CompletionJoinerWithInstsVars >> showList [
 
 	| node guy options morph |
 	node := self findNodeOf: methodCode withOffset: offset.
-	guy := CompletionGuy new.
+	guy := MatchedNodeProducer new.
 	guy completionContext: inClass.
 	options := guy completionListForNode: node inserting: nextCharacter . 
 	

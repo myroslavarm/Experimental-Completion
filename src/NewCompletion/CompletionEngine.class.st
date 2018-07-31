@@ -1,5 +1,5 @@
 Class {
-	#name : #Completer,
+	#name : #CompletionEngine,
 	#superclass : #Object,
 	#instVars : [
 		'ast'
@@ -7,35 +7,36 @@ Class {
 	#category : #'NewCompletion-Model'
 }
 
-{ #category : #helper }
-Completer >> complete: aString [
-	
+{ #category : #completion }
+CompletionEngine >> complete: aString [
+	"Return a list of matched symbols for the parameter where the cursor is at the end of the string"
 	^ self complete: aString inClass: UndefinedObject
 ]
 
-{ #category : #helper }
-Completer >> complete: aString inClass: aClass [
+{ #category : #completion }
+CompletionEngine >> complete: aString inClass: aClass [
 	
 	^ self complete: aString offset: aString size inClass: aClass
 ]
 
 { #category : #completion }
-Completer >> complete: aString offset: anInteger [ 
+CompletionEngine >> complete: aString offset: anInteger [ 
 	
 	^ self complete: aString offset: anInteger inClass: UndefinedObject.
 ]
 
 { #category : #completion }
-Completer >> complete: aString offset: anInteger inClass: aClass [
+CompletionEngine >> complete: aString offset: anInteger inClass: aClass [
+
 	| node guy |
 	node := self findNodeOf: aString withOffset: anInteger.
-	guy := CompletionGuy new.
+	guy := MatchedNodeProducer new.
 	guy completionContext: aClass.
 	^ guy completionListForNode: node. 
 ]
 
 { #category : #helper }
-Completer >> findNodeOf: aString [
+CompletionEngine >> findNodeOf: aString [
 	
 	| offset node |	
 	ast := RBParser parseFaultyMethod: aString.
@@ -45,19 +46,19 @@ Completer >> findNodeOf: aString [
 ]
 
 { #category : #helper }
-Completer >> findNodeOf: aString withOffset: anInteger [ 
+CompletionEngine >> findNodeOf: aString withOffset: anInteger [ 
 	| node |	
 	ast := RBParser parseFaultyMethod: aString.
 	node := ast bestNodeFor: (anInteger to: anInteger).
 	^ node
 ]
 
-{ #category : #completion }
-Completer >> showListFor: aString nextCharacter: aCharacter offset: anInteger inClass: aClass [ 
+{ #category : #'to remove' }
+CompletionEngine >> showListFor: aString nextCharacter: aCharacter offset: anInteger inClass: aClass [ 
 
 	| node guy options morph |
 	node := self findNodeOf: aString withOffset: anInteger.
-	guy := CompletionGuy new.
+	guy := MatchedNodeProducer new.
 	guy completionContext: aClass.
 	options := guy completionListForNode: node inserting: aCharacter . 
 	

@@ -1,5 +1,5 @@
 Class {
-	#name : #CompleterTest,
+	#name : #CompletionEngineTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'ast',
@@ -9,14 +9,14 @@ Class {
 }
 
 { #category : #tests }
-CompleterTest >> setUp [
-	completer := Completer new.
+CompletionEngineTest >> setUp [
+	completer := CompletionEngine new.
 	
 	
 ]
 
 { #category : #tests }
-CompleterTest >> testCompleteClassName [
+CompletionEngineTest >> testCompleteClassName [
 	| result|
 	result := completer complete: 'methodName
 	 Obje'.
@@ -25,7 +25,7 @@ CompleterTest >> testCompleteClassName [
 ]
 
 { #category : #tests }
-CompleterTest >> testCompleteGlobalVariable [
+CompletionEngineTest >> testCompleteGlobalVariable [
 	| result|
 	result := completer complete: 'methodName
 	 Tran'.
@@ -34,7 +34,7 @@ CompleterTest >> testCompleteGlobalVariable [
 ]
 
 { #category : #tests }
-CompleterTest >> testCompleteInstanceVariable [
+CompletionEngineTest >> testCompleteInstanceVariable [
  
 	| result |
 	result := completer complete: 'dd myInstanceV' inClass: CompletionMockClass.
@@ -44,7 +44,7 @@ CompleterTest >> testCompleteInstanceVariable [
 ]
 
 { #category : #tests }
-CompleterTest >> testCompleteInstanceVariableInSubClass [
+CompletionEngineTest >> testCompleteInstanceVariableInSubClass [
    
 	| result |
 	result := completer complete: 'methodNames
@@ -58,7 +58,7 @@ CompleterTest >> testCompleteInstanceVariableInSubClass [
 ]
 
 { #category : #tests }
-CompleterTest >> testCompleteMessage [
+CompletionEngineTest >> testCompleteMessage [
 	| result|
 	result := completer complete: 'methodName
 	
@@ -70,7 +70,21 @@ CompleterTest >> testCompleteMessage [
 ]
 
 { #category : #tests }
-CompleterTest >> testCompleteSelector [
+CompletionEngineTest >> testCompleteMessageSendToSelf [
+	"When we complete a message to self we should only consider the hierarchy"
+	| result|
+	result := completer complete: 'methodName
+	
+	self foo' inClass: CompletionMockSubClass.
+	self deny: (result includes: 'fooo2').
+	self assert: (result size = 1)
+
+	
+	
+]
+
+{ #category : #tests }
+CompletionEngineTest >> testCompleteSelector [
 	| result|
 	result := completer complete: 'methodName
 	
@@ -80,7 +94,7 @@ CompleterTest >> testCompleteSelector [
 ]
 
 { #category : #tests }
-CompleterTest >> testCompleteVariableTemp [
+CompletionEngineTest >> testCompleteVariableTemp [
 	| result |
 	result := completer complete: 'methodName
 
@@ -93,7 +107,7 @@ CompleterTest >> testCompleteVariableTemp [
 ]
 
 { #category : #tests }
-CompleterTest >> testCompleteVariableTempInAssignment [
+CompletionEngineTest >> testCompleteVariableTempInAssignment [
 	| result|
 	result := completer complete: 'methodName 
 	
@@ -106,7 +120,7 @@ CompleterTest >> testCompleteVariableTempInAssignment [
 ]
 
 { #category : #tests }
-CompleterTest >> testCompleteVariableTempMiddle [
+CompletionEngineTest >> testCompleteVariableTempMiddle [
 	"The completion should work if the user places its cursor in the middle of a n expression.
 	Here the cursor is after the a in the a := my"
 	| result |

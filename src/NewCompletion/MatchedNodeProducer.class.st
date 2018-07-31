@@ -1,32 +1,34 @@
+"
+I'm a little visitor
+"
 Class {
-	#name : #CompletionGuy,
+	#name : #MatchedNodeProducer,
 	#superclass : #Object,
 	#instVars : [
-		'insertedCharacter',
 		'currentClass'
 	],
-	#category : #NewCompletion
+	#category : #'NewCompletion-Model'
 }
 
 { #category : #accessing }
-CompletionGuy >> completionContext: aClass [ 
+MatchedNodeProducer >> completionContext: aClass [ 
 	currentClass := aClass.
 ]
 
 { #category : #completion }
-CompletionGuy >> completionListForNode: aRBNode [
+MatchedNodeProducer >> completionListForNode: aRBNode [
 
 	^ aRBNode acceptVisitor: self
 ]
 
-{ #category : #visiting }
-CompletionGuy >> select: aCollection beginningWith: aString [
+{ #category : #utils }
+MatchedNodeProducer >> select: aCollection beginningWith: aString [
 	^ aCollection select: [ :each | each beginsWith: aString asString ]
 	
 ]
 
 { #category : #visiting }
-CompletionGuy >> visitLiteralNode: aRBLiteralValueNode [
+MatchedNodeProducer >> visitLiteralNode: aRBLiteralValueNode [
 	
 	(aRBLiteralValueNode value isKindOf: Symbol) ifFalse: [ ^#() ].
 	"return all symbols that start with value concatenated with character"
@@ -34,14 +36,17 @@ CompletionGuy >> visitLiteralNode: aRBLiteralValueNode [
 ]
 
 { #category : #visiting }
-CompletionGuy >> visitMessageNode: aRBMessageNode [
-
+MatchedNodeProducer >> visitMessageNode: aRBMessageNode [
+	| receiver | 
+	receiver := aRBMessageNode receiver.
+	receiver isSelf 	
+		ifTrue: [ ^ self select: currentClass allSelectors beginningWith: aRBMessageNode selector ].
 	^ self select: Symbol allSymbols beginningWith: aRBMessageNode selector
 ]
 
 { #category : #visiting }
-CompletionGuy >> visitVariableNode: aRBVariableNode [ 
-	
+MatchedNodeProducer >> visitVariableNode: aRBVariableNode [ 
+	"using a stream to store results should be better"
 	^ (self select: Smalltalk globals keys beginningWith: aRBVariableNode name) , 
 	  (self select: (currentClass allSlots collect: [ :each | each name ]) beginningWith: aRBVariableNode name) ,
 		(self select: aRBVariableNode methodNode temporaryNames beginningWith: aRBVariableNode name)

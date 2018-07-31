@@ -39,7 +39,7 @@ CompletionSpec >> button: anObject [
 CompletionSpec >> buttonPressed [
 	| joiner |
 	"resultList items: (1 to: 35 atRandom)"
-	joiner := Completer new.
+	joiner := CompletionEngine new.
 	resultList items: (joiner complete: screen text asString offset: screen getSelection last inClass: classList selectedItem)
 	
 

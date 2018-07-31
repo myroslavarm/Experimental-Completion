@@ -20,9 +20,9 @@ CompletionListMorphTest >> testMorphCreation [
 { #category : #tests }
 CompletionListMorphTest >> testMorphCreation2 [
 	| morph node guy options joiner |
-	joiner := Completer new.
+	joiner := CompletionEngine new.
 	node := joiner findNodeOf: 'dd |anInstanceVariable| a' withOffset: 25.
-	guy := CompletionGuy new.
+	guy := MatchedNodeProducer new.
 	guy completionContext: UndefinedObject.
 	options := guy completionListForNode: node. 
 	

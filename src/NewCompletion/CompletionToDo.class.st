@@ -39,3 +39,9 @@ CompletionToDo >> addSortingOfTheResults [
 	'
 	Results should be sorted: and we probably need strategies to represent different sorting approaches'
 ]
+
+{ #category : #'as yet unclassified' }
+CompletionToDo >> whyCompletionGuy [
+
+	'Why completion guy is not a subclass of ProgramNodeVisitor'
+]
