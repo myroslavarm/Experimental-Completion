@@ -16,39 +16,55 @@ CompletionJoinerTest >> setUp [
 ]
 
 { #category : #tests }
+CompletionJoinerTest >> testCompleteClassName [
+	| result|
+	result := joiner complete: 'methodName
+	 Obje'.
+	self assert: (result includes: 'Object').
+	
+]
+
+{ #category : #tests }
+CompletionJoinerTest >> testCompleteGlobalVariable [
+	| result|
+	result := joiner complete: 'methodName
+	 Tran'.
+	self assert: (result includes: 'Transcript').
+	
+]
+
+{ #category : #tests }
 CompletionJoinerTest >> testCompleteInstanceVariable [
-   "for later"
+ 
 	| result |
 	result := joiner complete: 'dd myInstanceV' inClass: CompletionMockClass.
 	self assert: (result includes: 'myInstanceVariable').
-	"add metod to RBVariableNode.
-	how to get all temps: the class) -- instanceVariableNames
-	but we need to set a name on the ast somehow.
-	"	
+	
 	
 ]
 
 { #category : #tests }
 CompletionJoinerTest >> testCompleteInstanceVariableInSubClass [
-   "for later"
+   
 	| result |
-	result := joiner complete: 'dd myInstance' inClass: CompletionMockSubClass.
+	result := joiner complete: 'methodNames
+	 myInstance' inClass: CompletionMockSubClass.
 	self assert: (result includes: 'myInstanceVariable').
-	"add metod to RBVariableNode.
-	how to get all temps: the class) -- instanceVariableNames
-	but we need to set a name on the ast somehow.
-	"	
+	
+	result := joiner complete: 'methodNames
+	 qwerIn' inClass: CompletionMockSubClass.
+	self assert: (result isEmpty)
 	
 ]
 
 { #category : #tests }
 CompletionJoinerTest >> testCompleteMessage [
 	| result|
-	result := joiner complete: 'method 1 s'.
+	result := joiner complete: 'methodName
+	
+	1 s'.
 	self assert: (result includes: 'sin').
-	"add method to RBMessageNode.
-	how to get all method names: Symbol selectorTable.
-	"
+
 	
 	
 ]
@@ -56,30 +72,22 @@ CompletionJoinerTest >> testCompleteMessage [
 { #category : #tests }
 CompletionJoinerTest >> testCompleteSelector [
 	| result|
-	result := joiner complete: 'dd #bestNode'.
+	result := joiner complete: 'methodName
+	
+	#bestNode'.
 	self assert: (result includes: #bestNodeFor:).
-	
-]
-
-{ #category : #tests }
-CompletionJoinerTest >> testCompleteVariableGlobal [
-	| result|
-	result := joiner complete: 'dd Obje'.
-	"add method to RBVariableNode.
-	how to get all globals: Smalltalk globals -- returns associations, get 'key'.
-	"
-	
 	
 ]
 
 { #category : #tests }
 CompletionJoinerTest >> testCompleteVariableTemp [
 	| result |
-	result := joiner complete: 'dd |myTemp| my'.
+	result := joiner complete: 'methodName
+
+	 	|myTemp| 
+		my'.
 	self assert: (result includes: 'myTemp').
-	"add method to RBVariableNode.
-	how to get all temps: RBMethodnode (ast root) -- temporaryNames.
-	"
+	
 	
 	
 ]
@@ -87,23 +95,29 @@ CompletionJoinerTest >> testCompleteVariableTemp [
 { #category : #tests }
 CompletionJoinerTest >> testCompleteVariableTempInAssignment [
 	| result|
-	result := joiner complete: 'dd |myTemp aa | aa := myT'.
+	result := joiner complete: 'methodName 
+	
+	|myTemp aa | 
+	aa := myT'.
 	self assert: (result includes: 'myTemp').
-	"add method to RBVariableNode.
-	how to get all temps: RBMethodnode (ast root) -- temporaryNames.
-	"
+	
 	
 	
 ]
 
 { #category : #tests }
 CompletionJoinerTest >> testCompleteVariableTempMiddle [
+	"The completion should work if the user places its cursor in the middle of a n expression.
+	Here the cursor is after the a in the a := my"
 	| result |
-	result := joiner complete: 'dd |myTemp aVariable | a := my' offset: 24.
+	result := joiner complete: 'methodName
+	|myTemp aVariable | 
+	a := my' offset: 24.
 	self assert: (result includes: 'aVariable').
-	"add method to RBVariableNode.
-	how to get all temps: RBMethodnode (ast root) -- temporaryNames.
-	"
 	
+	result := joiner complete: 'methodName
+	|myTemp aVariable | 
+	a := my' offset: 27.
+	self assert: (result includes: 'aVariable').
 	
 ]
