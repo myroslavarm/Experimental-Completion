@@ -1,7 +1,7 @@
 Class {
 	#name : #CompletionToDo,
 	#superclass : #Object,
-	#category : #NewCompletion
+	#category : #'NewCompletion-ToDo'
 }
 
 { #category : #adding }

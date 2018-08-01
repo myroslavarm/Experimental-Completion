@@ -21,17 +21,17 @@ MatchedNodeProducer >> completionListForNode: aRBNode [
 	^ aRBNode acceptVisitor: self
 ]
 
-{ #category : #utils }
+{ #category : #utilities }
 MatchedNodeProducer >> select: aCollection beginningWith: aString [
-	^ aCollection select: [ :each | each beginsWith: aString asString ]
-	
+	"Set withAll: is needed to convert potential IdentitySets to regular Sets"
+	^ Set withAll: (aCollection select: [ :each | each beginsWith: aString asString ])
 ]
 
 { #category : #visiting }
 MatchedNodeProducer >> visitLiteralNode: aRBLiteralValueNode [
 	
 	(aRBLiteralValueNode value isKindOf: Symbol) ifFalse: [ ^#() ].
-	"return all symbols that start with value concatenated with character"
+	"return all symbols that start with value"
 	^ self select: Symbol allSymbols beginningWith: aRBLiteralValueNode value
 ]
 
@@ -41,6 +41,8 @@ MatchedNodeProducer >> visitMessageNode: aRBMessageNode [
 	receiver := aRBMessageNode receiver.
 	receiver isSelf 	
 		ifTrue: [ ^ self select: currentClass allSelectors beginningWith: aRBMessageNode selector ].
+	receiver isSuper 	
+		ifTrue: [ ^ self select: currentClass superclass allSelectors beginningWith: aRBMessageNode selector ].
 	^ self select: Symbol allSymbols beginningWith: aRBMessageNode selector
 ]
 

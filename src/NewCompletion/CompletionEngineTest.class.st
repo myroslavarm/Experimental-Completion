@@ -1,3 +1,6 @@
+"
+A test class for the completion engine
+"
 Class {
 	#name : #CompletionEngineTest,
 	#superclass : #TestCase,
@@ -21,6 +24,18 @@ CompletionEngineTest >> testCompleteClassName [
 	result := completer complete: 'methodName
 	 Obje'.
 	self assert: (result includes: 'Object').
+	
+]
+
+{ #category : #tests }
+CompletionEngineTest >> testCompleteClassSideMethodNames [
+	"CompletionMockClass is only supposed to give a suggestion for the class side method"
+	| result|
+	result := completer complete: 'methodName
+
+	CompletionMockClass foo'.
+	self flag: 'to fix'.
+	self assert: (result includes: #fooClass).
 	
 ]
 
@@ -77,7 +92,35 @@ CompletionEngineTest >> testCompleteMessageSendToSelf [
 	
 	self foo' inClass: CompletionMockSubClass.
 	self deny: (result includes: 'fooo2').
-	self assert: (result size = 1)
+	self assert: (result includes: 'foo1').
+	self assert: (result includes: 'foo2').
+	self assert: (result includes: 'fooo').
+	
+	
+]
+
+{ #category : #tests }
+CompletionEngineTest >> testCompleteMessageSendToSuper [
+	"When we complete a message to super we should only consider the superclass"
+	| result|
+	result := completer complete: 'methodName
+	
+	super foo' inClass: CompletionMockSubClass.
+	self deny: (result includes: 'foo2').
+	self assert: (result includes: 'foo1').
+
+	
+	
+]
+
+{ #category : #tests }
+CompletionEngineTest >> testCompleteNoInstVarForSelf [
+	"We shouldn't show an instance for a self call"
+	| result|
+	result := completer complete: 'methodName
+	
+	self tem' inClass: OtherCompletionMockClass.
+	self assert: (result isEmpty)
 
 	
 	
@@ -121,9 +164,10 @@ CompletionEngineTest >> testCompleteVariableTempInAssignment [
 
 { #category : #tests }
 CompletionEngineTest >> testCompleteVariableTempMiddle [
-	"The completion should work if the user places its cursor in the middle of a n expression.
+	"The completion should work if the user places its cursor in the middle of an expression.
 	Here the cursor is after the a in the a := my"
 	| result |
+	self flag: 'to fix why the offset doesnt work'.
 	result := completer complete: 'methodName
 	|myTemp aVariable | 
 	a := my' offset: 24.

@@ -1,3 +1,6 @@
+"
+I do the completion and store the results
+"
 Class {
 	#name : #CompletionEngine,
 	#superclass : #Object,

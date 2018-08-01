@@ -7,7 +7,7 @@ Class {
 		'offset',
 		'inClass'
 	],
-	#category : #NewCompletion
+	#category : #'NewCompletion-ToDo'
 }
 
 { #category : #completion }

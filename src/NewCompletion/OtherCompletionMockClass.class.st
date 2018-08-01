@@ -1,7 +1,10 @@
 Class {
 	#name : #OtherCompletionMockClass,
 	#superclass : #Object,
-	#category : #NewCompletion
+	#instVars : [
+		'temp1'
+	],
+	#category : #'NewCompletion-Mock'
 }
 
 { #category : #'as yet unclassified' }

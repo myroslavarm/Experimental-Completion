@@ -1,7 +1,7 @@
 Class {
 	#name : #CompletionController,
 	#superclass : #Object,
-	#category : #NewCompletion
+	#category : #'NewCompletion-ToDo'
 }
 
 { #category : #'as yet unclassified' }
