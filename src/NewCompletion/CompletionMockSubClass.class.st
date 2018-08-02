@@ -5,6 +5,10 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+CompletionMockSubClass class >> fooClassInSubclass [
+]
+
+{ #category : #'as yet unclassified' }
 CompletionMockSubClass >> foo2 [
 
 	^ 'hello foo2'

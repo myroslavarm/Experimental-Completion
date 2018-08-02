@@ -5,7 +5,8 @@ Class {
 	#name : #CompletionEngine,
 	#superclass : #Object,
 	#instVars : [
-		'ast'
+		'ast',
+		'sorter'
 	],
 	#category : #'NewCompletion-Model'
 }
@@ -69,4 +70,16 @@ CompletionEngine >> showListFor: aString nextCharacter: aCharacter offset: anInt
 	morph initializeWith: options.
 	morph openInWindow.
 
+]
+
+{ #category : #sorting }
+CompletionEngine >> sortList: aList [
+
+		^ sorter sortCompletionList: aList 
+]
+
+{ #category : #sorting }
+CompletionEngine >> sorter: aSorter [
+
+	sorter := aSorter
 ]

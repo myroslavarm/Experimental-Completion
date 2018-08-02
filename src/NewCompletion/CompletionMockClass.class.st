@@ -18,3 +18,9 @@ CompletionMockClass >> foo1 [
 
 	^ 'hello foo1'
 ]
+
+{ #category : #'as yet unclassified' }
+CompletionMockClass >> fooArg: aString [
+
+	^ aString
+]

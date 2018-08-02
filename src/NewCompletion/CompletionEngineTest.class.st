@@ -6,7 +6,8 @@ Class {
 	#superclass : #TestCase,
 	#instVars : [
 		'ast',
-		'completer'
+		'completer',
+		'sorter'
 	],
 	#category : #'NewCompletion-Model'
 }
@@ -14,6 +15,7 @@ Class {
 { #category : #tests }
 CompletionEngineTest >> setUp [
 	completer := CompletionEngine new.
+	sorter := Sorter new.
 	
 	
 ]
@@ -34,8 +36,13 @@ CompletionEngineTest >> testCompleteClassSideMethodNames [
 	result := completer complete: 'methodName
 
 	CompletionMockClass foo'.
-	self flag: 'to fix'.
 	self assert: (result includes: #fooClass).
+	
+	result := completer complete: 'methodName
+
+	CompletionMockSubclass foo'.
+	self assert: (result includes: #fooClass).
+	self assert: (result includes: #fooClassInSubclass).
 	
 ]
 
@@ -114,6 +121,19 @@ CompletionEngineTest >> testCompleteMessageSendToSuper [
 ]
 
 { #category : #tests }
+CompletionEngineTest >> testCompleteMethodArgument [
+	"We shouldn't show an instance for a self call"
+	| result|
+	result := completer complete: 'methodName:
+	
+	anArgument an'.
+	self deny: (result isEmpty)
+
+	
+	
+]
+
+{ #category : #tests }
 CompletionEngineTest >> testCompleteNoInstVarForSelf [
 	"We shouldn't show an instance for a self call"
 	| result|
@@ -177,5 +197,21 @@ CompletionEngineTest >> testCompleteVariableTempMiddle [
 	|myTemp aVariable | 
 	a := my' offset: 27.
 	self assert: (result includes: 'aVariable').
+	
+]
+
+{ #category : #tests }
+CompletionEngineTest >> testSortAlphabetically [
+	"When we complete a message to self we should only consider the hierarchy"
+	| result|
+	result := completer complete: 'methodName
+	
+	self foo' inClass: CompletionMockSubClass.
+	completer sorter: AlphabeticSorter new.
+	result := completer sortList: result.
+	self assert: (result first = 'foo1').
+	self assert: (result includes: 'foo2').
+	self assert: (result includes: 'fooo').
+	
 	
 ]
