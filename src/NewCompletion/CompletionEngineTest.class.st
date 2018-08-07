@@ -122,11 +122,11 @@ CompletionEngineTest >> testCompleteMessageSendToSuper [
 
 { #category : #tests }
 CompletionEngineTest >> testCompleteMethodArgument [
-	"We shouldn't show an instance for a self call"
+	"Complete an argument"
 	| result|
 	result := completer complete: 'methodName:
 	
-	anArgument an'.
+	aString aS'.
 	self deny: (result isEmpty)
 
 	
@@ -212,6 +212,22 @@ CompletionEngineTest >> testSortAlphabetically [
 	self assert: (result first = 'foo1').
 	self assert: (result includes: 'foo2').
 	self assert: (result includes: 'fooo').
+	
+	
+]
+
+{ #category : #tests }
+CompletionEngineTest >> testSortInReverseOrder [
+	"Sorted and then reversed"
+	| result|
+	result := completer complete: 'methodName
+	
+	self foo' inClass: CompletionMockSubClass.
+	completer sorter: ReverseSorter new.
+	result := completer sortList: result.
+	self assert: (result first = 'fooo').
+	self assert: (result includes: 'foo2').
+	self assert: (result last = 'foo1').
 	
 	
 ]
