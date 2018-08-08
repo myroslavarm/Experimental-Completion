@@ -1,3 +1,6 @@
+"
+Aplhabetical sorting.
+"
 Class {
 	#name : #AlphabeticSorter,
 	#superclass : #Sorter,

@@ -1,3 +1,9 @@
+"
+Spec that visualises the code completion functionality
+To call the spec, in Playground execute:
+			
+			CompletionSpec new openWithSpec
+"
 Class {
 	#name : #CompletionSpec,
 	#superclass : #ComposablePresenter,

@@ -1,8 +1,17 @@
+"
+Mock classes used for testing some completion functionality.
+"
 Class {
 	#name : #CompletionMockClass,
 	#superclass : #Object,
 	#instVars : [
 		'myInstanceVariable'
+	],
+	#classVars : [
+		'Hello'
+	],
+	#pools : [
+		'VTermOutputStyles'
 	],
 	#category : #'NewCompletion-Mock'
 }

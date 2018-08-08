@@ -1,3 +1,8 @@
+"
+Strategy pattern that describes the sorting functionality.
+
+Sorter allSubclasses collect: #kind an OrderedCollection('' 'alphabetical' '' '')
+"
 Class {
 	#name : #Sorter,
 	#superclass : #Object,

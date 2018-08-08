@@ -4,6 +4,9 @@ Class {
 	#instVars : [
 		'temp1'
 	],
+	#classInstVars : [
+		'noFilterMock'
+	],
 	#category : #'NewCompletion-Mock'
 }
 

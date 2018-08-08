@@ -25,11 +25,11 @@ CompletionEngine >> complete: aString inClass: aClass [
 
 { #category : #completion }
 CompletionEngine >> complete: aString offset: anInteger [ 
-	
+
 	^ self complete: aString offset: anInteger inClass: UndefinedObject.
 ]
 
-{ #category : #completion }
+{ #category : #sorting }
 CompletionEngine >> complete: aString offset: anInteger inClass: aClass [
 
 	| node guy |

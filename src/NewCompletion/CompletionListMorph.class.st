@@ -1,3 +1,6 @@
+"
+Trial morph
+"
 Class {
 	#name : #CompletionListMorph,
 	#superclass : #Morph,

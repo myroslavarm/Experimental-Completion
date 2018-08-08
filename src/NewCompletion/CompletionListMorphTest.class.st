@@ -1,3 +1,6 @@
+"
+Tests for the morph
+"
 Class {
 	#name : #CompletionListMorphTest,
 	#superclass : #TestCase,

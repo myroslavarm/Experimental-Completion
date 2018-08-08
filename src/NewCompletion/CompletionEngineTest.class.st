@@ -12,7 +12,7 @@ Class {
 	#category : #'NewCompletion-Model'
 }
 
-{ #category : #tests }
+{ #category : #setup }
 CompletionEngineTest >> setUp [
 	completer := CompletionEngine new.
 	sorter := Sorter new.
@@ -20,7 +20,7 @@ CompletionEngineTest >> setUp [
 	
 ]
 
-{ #category : #tests }
+{ #category : #'class tests' }
 CompletionEngineTest >> testCompleteClassName [
 	| result|
 	result := completer complete: 'methodName
@@ -29,7 +29,7 @@ CompletionEngineTest >> testCompleteClassName [
 	
 ]
 
-{ #category : #tests }
+{ #category : #'class tests' }
 CompletionEngineTest >> testCompleteClassSideMethodNames [
 	"CompletionMockClass is only supposed to give a suggestion for the class side method"
 	| result|
@@ -46,7 +46,16 @@ CompletionEngineTest >> testCompleteClassSideMethodNames [
 	
 ]
 
-{ #category : #tests }
+{ #category : #'testing - variables' }
+CompletionEngineTest >> testCompleteClassVariable [
+	| result|
+	result := completer complete: 'methodName
+	 He' inClass: CompletionMockSubClass.
+	self assert: (result includes: 'Hello').
+	
+]
+
+{ #category : #'testing - variables' }
 CompletionEngineTest >> testCompleteGlobalVariable [
 	| result|
 	result := completer complete: 'methodName
@@ -55,7 +64,7 @@ CompletionEngineTest >> testCompleteGlobalVariable [
 	
 ]
 
-{ #category : #tests }
+{ #category : #'testing - variables' }
 CompletionEngineTest >> testCompleteInstanceVariable [
  
 	| result |
@@ -65,7 +74,18 @@ CompletionEngineTest >> testCompleteInstanceVariable [
 	
 ]
 
-{ #category : #tests }
+{ #category : #'testing - variables' }
+CompletionEngineTest >> testCompleteInstanceVariableClassSide [
+ 
+	| result |
+	result := completer complete: 'methodName
+		 noFi' inClass: OtherCompletionMockClass class.
+	self assert: (result includes: 'noFilterMock').
+	
+	
+]
+
+{ #category : #'testing - variables' }
 CompletionEngineTest >> testCompleteInstanceVariableInSubClass [
    
 	| result |
@@ -79,7 +99,7 @@ CompletionEngineTest >> testCompleteInstanceVariableInSubClass [
 	
 ]
 
-{ #category : #tests }
+{ #category : #'message sends' }
 CompletionEngineTest >> testCompleteMessage [
 	| result|
 	result := completer complete: 'methodName
@@ -91,7 +111,7 @@ CompletionEngineTest >> testCompleteMessage [
 	
 ]
 
-{ #category : #tests }
+{ #category : #'message sends' }
 CompletionEngineTest >> testCompleteMessageSendToSelf [
 	"When we complete a message to self we should only consider the hierarchy"
 	| result|
@@ -106,7 +126,7 @@ CompletionEngineTest >> testCompleteMessageSendToSelf [
 	
 ]
 
-{ #category : #tests }
+{ #category : #'message sends' }
 CompletionEngineTest >> testCompleteMessageSendToSuper [
 	"When we complete a message to super we should only consider the superclass"
 	| result|
@@ -120,20 +140,19 @@ CompletionEngineTest >> testCompleteMessageSendToSuper [
 	
 ]
 
-{ #category : #tests }
+{ #category : #'testing - variables' }
 CompletionEngineTest >> testCompleteMethodArgument [
 	"Complete an argument"
 	| result|
-	result := completer complete: 'methodName:
-	
-	aString aS'.
-	self deny: (result isEmpty)
+	result := completer complete: 'methodName: aString 
+			aS'.
+	self assert: (result includes: 'aString').
 
 	
 	
 ]
 
-{ #category : #tests }
+{ #category : #'message sends' }
 CompletionEngineTest >> testCompleteNoInstVarForSelf [
 	"We shouldn't show an instance for a self call"
 	| result|
@@ -146,7 +165,7 @@ CompletionEngineTest >> testCompleteNoInstVarForSelf [
 	
 ]
 
-{ #category : #tests }
+{ #category : #selectors }
 CompletionEngineTest >> testCompleteSelector [
 	| result|
 	result := completer complete: 'methodName
@@ -156,7 +175,27 @@ CompletionEngineTest >> testCompleteSelector [
 	
 ]
 
-{ #category : #tests }
+{ #category : #'testing - variables' }
+CompletionEngineTest >> testCompleteSharedPoolVariable [
+	| result|
+	result := completer complete: 'methodName
+	 Re' inClass: CompletionMockClass.
+	self assert: (result includes: 'Reverse')
+	
+]
+
+{ #category : #'testing - variables' }
+CompletionEngineTest >> testCompleteVariableDefinition [
+	"We never complete definitions"
+	| result |
+	result := completer complete: 'methodName
+	|myTemp aVariable aV| 
+	a := my' offset: 32.
+	self assert: result isEmpty.
+	
+]
+
+{ #category : #'testing - variables' }
 CompletionEngineTest >> testCompleteVariableTemp [
 	| result |
 	result := completer complete: 'methodName
@@ -169,7 +208,7 @@ CompletionEngineTest >> testCompleteVariableTemp [
 	
 ]
 
-{ #category : #tests }
+{ #category : #'testing - variables' }
 CompletionEngineTest >> testCompleteVariableTempInAssignment [
 	| result|
 	result := completer complete: 'methodName 
@@ -182,25 +221,19 @@ CompletionEngineTest >> testCompleteVariableTempInAssignment [
 	
 ]
 
-{ #category : #tests }
+{ #category : #'testing - variables' }
 CompletionEngineTest >> testCompleteVariableTempMiddle [
 	"The completion should work if the user places its cursor in the middle of an expression.
 	Here the cursor is after the a in the a := my"
 	| result |
-	self flag: 'to fix why the offset doesnt work'.
 	result := completer complete: 'methodName
 	|myTemp aVariable | 
-	a := my' offset: 24.
-	self assert: (result includes: 'aVariable').
-	
-	result := completer complete: 'methodName
-	|myTemp aVariable | 
-	a := my' offset: 27.
+	a := my' offset: 35.
 	self assert: (result includes: 'aVariable').
 	
 ]
 
-{ #category : #tests }
+{ #category : #'tests - sorting' }
 CompletionEngineTest >> testSortAlphabetically [
 	"When we complete a message to self we should only consider the hierarchy"
 	| result|
@@ -216,7 +249,7 @@ CompletionEngineTest >> testSortAlphabetically [
 	
 ]
 
-{ #category : #tests }
+{ #category : #'tests - sorting' }
 CompletionEngineTest >> testSortInReverseOrder [
 	"Sorted and then reversed"
 	| result|
