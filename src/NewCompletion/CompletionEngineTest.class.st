@@ -140,6 +140,31 @@ CompletionEngineTest >> testCompleteMessageSendToSuper [
 	
 ]
 
+{ #category : #'message sends' }
+CompletionEngineTest >> testCompleteMessageWithParameter [
+	"Like in the old system ifF gives all the options that begin with ifF without accounting for the ifTrue part."
+	| result|
+	result := completer complete: 'methodName
+	
+	true ifTrue: [1] ifF'.
+	self assert: (result includes: 'ifFalse:').
+
+	
+	
+]
+
+{ #category : #'message sends' }
+CompletionEngineTest >> testCompleteMessageWithParameterOffset [
+	| result a |
+	result := completer complete: 'methodName
+	
+	a ifFal ifTrue:' offset: 21.
+	self assert: (result includes: 'ifFalse:').
+
+	
+	
+]
+
 { #category : #'testing - variables' }
 CompletionEngineTest >> testCompleteMethodArgument [
 	"Complete an argument"
@@ -172,6 +197,16 @@ CompletionEngineTest >> testCompleteSelector [
 	
 	#bestNode'.
 	self assert: (result includes: #bestNodeFor:).
+	
+]
+
+{ #category : #selectors }
+CompletionEngineTest >> testCompleteSelectorWithOffset [
+	| result|
+	result := completer complete: 'methodName
+	
+	#ifTrue . [1 + 2]' offset: 21.
+	self assert: (result includes: #ifTrue:ifFalse:).
 	
 ]
 

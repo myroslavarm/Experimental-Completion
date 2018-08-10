@@ -44,6 +44,7 @@ CompletionEngine >> findNodeOf: aString [
 	
 	| offset node |	
 	ast := RBParser parseFaultyMethod: aString.
+	ast doSemanticAnalysis.
 	offset := aString size.
 	node := ast bestNodeFor: (offset to: offset).
 	^ node
@@ -53,6 +54,7 @@ CompletionEngine >> findNodeOf: aString [
 CompletionEngine >> findNodeOf: aString withOffset: anInteger [ 
 	| node |	
 	ast := RBParser parseFaultyMethod: aString.
+	ast doSemanticAnalysis.
 	node := ast bestNodeFor: (anInteger to: anInteger).
 	^ node
 ]
