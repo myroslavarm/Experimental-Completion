@@ -24,10 +24,20 @@ MatchingRecentlyUsedTest >> foo3 [
 ]
 
 { #category : #tests }
+MatchingRecentlyUsedTest >> testFillUpGlobalsCache [
+
+	| matcher |
+	matcher := MatchingRecentlyUsed new.
+	matcher fillCacheBasedOnCompiledMethod: (MatchingRecentlyUsedTest>> #foo).
+	self assert: (matcher globalsIncludes: OrderedCollection).
+]
+
+{ #category : #tests }
 MatchingRecentlyUsedTest >> testFillUpMessagesCache [
 
 	| matcher |
 	matcher := MatchingRecentlyUsed new.
 	matcher fillCacheBasedOnCompiledMethod: (MatchingRecentlyUsedTest>> #foo).
 	self assert: (matcher messagesIncludes: #isEmpty).
+	self assert: (matcher messagesIncludes: #foo).
 ]
