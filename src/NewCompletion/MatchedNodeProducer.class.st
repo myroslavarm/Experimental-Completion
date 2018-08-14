@@ -55,6 +55,16 @@ MatchedNodeProducer >> visitMessageNode:  aRBMessageNode [
 ]
 
 { #category : #visiting }
+MatchedNodeProducer >> visitNode: aNode [ 
+	^aNode acceptVisitor: self
+]
+
+{ #category : #visiting }
+MatchedNodeProducer >> visitPragmaNode: aPragmaNode [
+	aPragmaNode arguments do: [ :each | self visitNode: each ]
+]
+
+{ #category : #visiting }
 MatchedNodeProducer >> visitTemporaryNode: aNode [ 
 	"Sent *each time* a temporary node is found"
 	^ self visitVariableNode: aNode

@@ -7,7 +7,9 @@ Class {
 	#instVars : [
 		'ast',
 		'completer',
-		'sorter'
+		'sorter',
+		'globals',
+		'messages'
 	],
 	#category : #'NewCompletion-Model'
 }
@@ -18,6 +20,29 @@ CompletionEngineTest >> setUp [
 	sorter := Sorter new.
 	
 	
+]
+
+{ #category : #'recently used' }
+CompletionEngineTest >> test [
+
+	'foo
+		OrderedCollection new.
+		self foo2'.
+	
+	self assert: (globals includes: 'OrderedCollection').
+	self assert: (messages includes: 'foo').
+	self assert: (messages includes: 'foo2').
+]
+
+{ #category : #'as yet unclassified' }
+CompletionEngineTest >> testCompleteCascade [
+	| result|
+	result := completer complete: 'methodName 
+					1 
+						do: 1;
+						wi'.
+	self flag: 'fix'.
+	self assert: (result includes: 'with:').
 ]
 
 { #category : #'class tests' }
@@ -177,6 +202,17 @@ CompletionEngineTest >> testCompleteMethodArgument [
 	
 ]
 
+{ #category : #'testing - variables' }
+CompletionEngineTest >> testCompleteMethodArgumentDefinition [
+	"Complete an argument"
+	| result|
+	result := completer complete: 'methodName: aS'.
+	self assert: (result isEmpty).
+
+	
+	
+]
+
 { #category : #'message sends' }
 CompletionEngineTest >> testCompleteNoInstVarForSelf [
 	"We shouldn't show an instance for a self call"
@@ -188,6 +224,14 @@ CompletionEngineTest >> testCompleteNoInstVarForSelf [
 
 	
 	
+]
+
+{ #category : #'as yet unclassified' }
+CompletionEngineTest >> testCompletePragma [
+	| result|
+	result := completer complete: 'methodName 
+					<prag >'.
+	self assert: (result includes: 'pragma').
 ]
 
 { #category : #selectors }
@@ -217,6 +261,22 @@ CompletionEngineTest >> testCompleteSharedPoolVariable [
 	 Re' inClass: CompletionMockClass.
 	self assert: (result includes: 'Reverse')
 	
+]
+
+{ #category : #'as yet unclassified' }
+CompletionEngineTest >> testCompleteSymbol [
+	| result|
+	result := completer complete: 'methodName 
+				#symbo'.
+	self assert: (result includes: #symbol).
+]
+
+{ #category : #'as yet unclassified' }
+CompletionEngineTest >> testCompleteSymbolInArray [
+	| result|
+	result := completer complete: 'methodName 
+				#(1 1.1'.
+	self assert: (result includes: ')').
 ]
 
 { #category : #'testing - variables' }
@@ -265,6 +325,23 @@ CompletionEngineTest >> testCompleteVariableTempMiddle [
 	|myTemp aVariable | 
 	a := my' offset: 35.
 	self assert: (result includes: 'aVariable').
+	
+]
+
+{ #category : #'as yet unclassified' }
+CompletionEngineTest >> testCompleteWithWrongSyntaxAtBeginning [
+	| result|
+	result := completer complete: 'methodName
+        ) self hal'.
+	self assert: (result isEmpty).
+]
+
+{ #category : #'as yet unclassified' }
+CompletionEngineTest >> testCompleteWithWrongSyntaxAtEnd [
+	| result|
+	result := completer complete: 'methodName
+        self hal )' offset: 27.
+	self assert: (result isEmpty).
 	
 ]
 
