@@ -12,6 +12,17 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+MatchingRecentlyUsed >> emptyCacheBasedOnCompiledMethod: aCompiledMethod [ 
+	messages isEmpty ifFalse: [
+		messages remove: aCompiledMethod ].
+
+	"aCompiledMethod allLiterals do: [ :l |
+	
+		l class = GlobalVariable 
+			ifTrue: [ globals remove: l value ] ]"
+]
+
+{ #category : #'as yet unclassified' }
 MatchingRecentlyUsed >> fillCacheBasedOnCompiledMethod: aCompiledMethod [ 
 	messages addAll: aCompiledMethod messages.
 	messages add: aCompiledMethod selector.
@@ -27,6 +38,11 @@ MatchingRecentlyUsed >> globalsIncludes: aClass [
 	^ globals includes: aClass
 ]
 
+{ #category : #testing }
+MatchingRecentlyUsed >> globalsIsEmpty [
+	^ globals isEmpty
+]
+
 { #category : #initialization }
 MatchingRecentlyUsed >> initialize [
 
@@ -38,4 +54,9 @@ MatchingRecentlyUsed >> initialize [
 { #category : #testing }
 MatchingRecentlyUsed >> messagesIncludes: aSymbol [ 
 	^ messages includes: aSymbol
+]
+
+{ #category : #testing }
+MatchingRecentlyUsed >> messagesIsEmpty [ 
+	^ messages isEmpty
 ]

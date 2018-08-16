@@ -24,6 +24,26 @@ MatchingRecentlyUsedTest >> foo3 [
 ]
 
 { #category : #tests }
+MatchingRecentlyUsedTest >> testEmptyUpGlobalsCache [
+
+	| matcher |
+	matcher := MatchingRecentlyUsed new.
+	matcher emptyCacheBasedOnCompiledMethod: (MatchingRecentlyUsedTest>> #foo).
+	self assert: matcher globalsIsEmpty equals: true.
+]
+
+{ #category : #tests }
+MatchingRecentlyUsedTest >> testEmptyUpMessagesCache [
+
+	| matcher |
+	matcher := MatchingRecentlyUsed new.
+	matcher emptyCacheBasedOnCompiledMethod: (MatchingRecentlyUsedTest>> #foo).
+	self assert: (matcher messagesIncludes: #isEmpty) equals: false.
+	self assert: (matcher messagesIncludes: #foo) equals: false.
+	self assert: matcher messagesIsEmpty equals: true.
+]
+
+{ #category : #tests }
 MatchingRecentlyUsedTest >> testFillUpGlobalsCache [
 
 	| matcher |

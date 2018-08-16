@@ -22,7 +22,7 @@ CompletionEngineTest >> setUp [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'message sends' }
 CompletionEngineTest >> testCompleteCascade [
 	| result|
 	result := completer complete: 'methodName 
@@ -214,7 +214,7 @@ CompletionEngineTest >> testCompleteNoInstVarForSelf [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'testing - variables' }
 CompletionEngineTest >> testCompletePragma [
 	| result|
 	self skip: 'RBParser does not return enough information...'.
@@ -252,7 +252,7 @@ CompletionEngineTest >> testCompleteSharedPoolVariable [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #selectors }
 CompletionEngineTest >> testCompleteSymbol [
 	| result|
 	result := completer complete: 'methodName 
@@ -260,7 +260,7 @@ CompletionEngineTest >> testCompleteSymbol [
 	self assert: (result includes: #symbol).
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #selectors }
 CompletionEngineTest >> testCompleteSymbolInArray [
 	| result|
 	self skip: 'Something wrong with syntax'.
@@ -318,7 +318,7 @@ CompletionEngineTest >> testCompleteVariableTempMiddle [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'testing syntax' }
 CompletionEngineTest >> testCompleteWithWrongSyntaxAtBeginning [
 	| result|
 	self skip: 'syntax issues'.
@@ -327,7 +327,7 @@ CompletionEngineTest >> testCompleteWithWrongSyntaxAtBeginning [
 	self assert: (result isEmpty).
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'testing syntax' }
 CompletionEngineTest >> testCompleteWithWrongSyntaxAtEnd [
 	| result|
 	self skip: 'syntax issues'.
