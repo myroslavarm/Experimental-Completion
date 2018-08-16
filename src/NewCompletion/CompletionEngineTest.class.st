@@ -29,7 +29,6 @@ CompletionEngineTest >> testCompleteCascade [
 					1 
 						do: 1;
 						wi'.
-	self skip: 'fix?'.
 	self assert: (result includes: 'with:').
 ]
 
@@ -217,9 +216,8 @@ CompletionEngineTest >> testCompleteNoInstVarForSelf [
 { #category : #'testing - variables' }
 CompletionEngineTest >> testCompletePragma [
 	| result|
-	self skip: 'RBParser does not return enough information...'.
 	result := completer complete: 'methodName 
-					<prag >'.
+					<prag >' offset: 22.
 	self assert: (result includes: 'pragma').
 ]
 
@@ -263,10 +261,10 @@ CompletionEngineTest >> testCompleteSymbol [
 { #category : #selectors }
 CompletionEngineTest >> testCompleteSymbolInArray [
 	| result|
-	self skip: 'Something wrong with syntax'.
+	self flag: 'maybe parantheses support should be added'.
 	result := completer complete: 'methodName 
-				#(1 1.1'.
-	self assert: (result includes: ')').
+				#(#tes)' offset: 22.
+	self assert: (result includes: #test).
 ]
 
 { #category : #'testing - variables' }
@@ -321,7 +319,7 @@ CompletionEngineTest >> testCompleteVariableTempMiddle [
 { #category : #'testing syntax' }
 CompletionEngineTest >> testCompleteWithWrongSyntaxAtBeginning [
 	| result|
-	self skip: 'syntax issues'.
+	"self skip: 'maybe parantheses support should be added'."
 	result := completer complete: 'methodName
         ) self hal'.
 	self assert: (result isEmpty).
@@ -330,9 +328,9 @@ CompletionEngineTest >> testCompleteWithWrongSyntaxAtBeginning [
 { #category : #'testing syntax' }
 CompletionEngineTest >> testCompleteWithWrongSyntaxAtEnd [
 	| result|
-	self skip: 'syntax issues'.
+	self flag: 'maybe parantheses support should be added'.
 	result := completer complete: 'methodName
-        self hal )' offset: 27.
+        self hal .(1)' offset: 27.
 	self assert: (result includes: 'halt').
 	
 ]

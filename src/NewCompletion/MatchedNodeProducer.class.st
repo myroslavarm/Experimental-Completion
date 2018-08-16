@@ -61,7 +61,7 @@ MatchedNodeProducer >> visitNode: aNode [
 
 { #category : #visiting }
 MatchedNodeProducer >> visitPragmaNode: aPragmaNode [
-	aPragmaNode arguments do: [ :each | self visitNode: each ]
+	^ self select: Symbol allSymbols beginningWith: aPragmaNode selector
 ]
 
 { #category : #visiting }
