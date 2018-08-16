@@ -328,9 +328,8 @@ CompletionEngineTest >> testCompleteWithWrongSyntaxAtBeginning [
 { #category : #'testing syntax' }
 CompletionEngineTest >> testCompleteWithWrongSyntaxAtEnd [
 	| result|
-	self flag: 'maybe parantheses support should be added'.
 	result := completer complete: 'methodName
-        self hal .(1)' offset: 27.
+        self hal )' offset: 27.
 	self assert: (result includes: 'halt').
 	
 ]

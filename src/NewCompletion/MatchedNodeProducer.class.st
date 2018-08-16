@@ -60,6 +60,12 @@ MatchedNodeProducer >> visitNode: aNode [
 ]
 
 { #category : #visiting }
+MatchedNodeProducer >> visitParseErrorNode: aRBLiteralValueNode [
+	
+	^ #()
+]
+
+{ #category : #visiting }
 MatchedNodeProducer >> visitPragmaNode: aPragmaNode [
 	^ self select: Symbol allSymbols beginningWith: aPragmaNode selector
 ]
