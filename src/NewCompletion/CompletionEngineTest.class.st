@@ -26,7 +26,7 @@ CompletionEngineTest >> setUp [
 CompletionEngineTest >> testCompleteCascade [
 	| result|
 	result := completer complete: 'methodName 
-					1 
+					(1+2) 
 						do: 1;
 						wi'.
 	self assert: (result includes: 'with:').
@@ -177,6 +177,18 @@ CompletionEngineTest >> testCompleteMessageWithParameterOffset [
 	
 ]
 
+{ #category : #'message sends' }
+CompletionEngineTest >> testCompleteMessageWithTypeKnown [
+	| result|
+	result := completer complete: 'methodName
+	
+	1 ifT'.
+	self assert: (result isEmpty).
+
+	
+	
+]
+
 { #category : #'testing - variables' }
 CompletionEngineTest >> testCompleteMethodArgument [
 	"Complete an argument"
@@ -317,9 +329,20 @@ CompletionEngineTest >> testCompleteVariableTempMiddle [
 ]
 
 { #category : #'testing syntax' }
+CompletionEngineTest >> testCompleteWithIncompleteSyntaxAtBeginning [
+	| result|
+	self skip: 'this is a problem that we should solve later'.
+	"the error node has wrong start and stop and no content."
+	result := completer complete: 'methodName
+        ( 1 do'.
+	self assert: (result includes: 'do:without:').
+	
+]
+
+{ #category : #'testing syntax' }
 CompletionEngineTest >> testCompleteWithWrongSyntaxAtBeginning [
 	| result|
-	"self skip: 'maybe parantheses support should be added'."
+	"Like in the old one, we don't complete anything if there's a syntax error."
 	result := completer complete: 'methodName
         ) self hal'.
 	self assert: (result isEmpty).
