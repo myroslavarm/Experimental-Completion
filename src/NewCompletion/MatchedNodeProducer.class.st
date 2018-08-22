@@ -45,14 +45,9 @@ MatchedNodeProducer >> visitLiteralNode: aRBLiteralValueNode [
 MatchedNodeProducer >> visitMessageNode:  aRBMessageNode [
 	| receiver | 
 	receiver := aRBMessageNode receiver.
-	receiver isSelf 	
-		ifTrue: [ ^ self select: currentClass allSelectors beginningWith: aRBMessageNode selector ].
-	receiver isSuper 	
-		ifTrue: [ ^ self select: currentClass superclass allSelectors beginningWith: aRBMessageNode selector ].
-	(receiver isVariable and: [(Smalltalk globals includesKey: receiver name)])
-		ifTrue: [ ^ self select: (Smalltalk globals at: receiver name) class allSelectors beginningWith: aRBMessageNode selector].
-	receiver isLiteralNode
-		ifTrue: [ ^ self select: receiver value class allSelectors beginningWith: aRBMessageNode selector ] .
+	
+	(receiver hasProperty: #type)
+		ifTrue: [ ^ self select: (receiver propertyAt: #type) allSelectors beginningWith: aRBMessageNode selector ] .
 	^ self select: Symbol selectorTable beginningWith: aRBMessageNode selector
 ]
 

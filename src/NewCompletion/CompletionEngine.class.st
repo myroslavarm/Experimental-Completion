@@ -6,7 +6,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'ast',
-		'sorter'
+		'sorter',
+		'class'
 	],
 	#category : #'NewCompletion-Model'
 }
@@ -33,6 +34,7 @@ CompletionEngine >> complete: aString offset: anInteger [
 CompletionEngine >> complete: aString offset: anInteger inClass: aClass [
 
 	| node guy |
+	class := aClass.
 	node := self findNodeOf: aString withOffset: anInteger.
 	guy := MatchedNodeProducer new.
 	guy completionContext: aClass.
@@ -40,21 +42,11 @@ CompletionEngine >> complete: aString offset: anInteger inClass: aClass [
 ]
 
 { #category : #helper }
-CompletionEngine >> findNodeOf: aString [
-	
-	| offset node |	
-	ast := RBParser parseFaultyMethod: aString.
-	ast doSemanticAnalysis.
-	offset := aString size.
-	node := ast bestNodeFor: (offset to: offset).
-	^ node
-]
-
-{ #category : #helper }
 CompletionEngine >> findNodeOf: aString withOffset: anInteger [ 
 	| node |	
 	ast := RBParser parseFaultyMethod: aString.
-	ast doSemanticAnalysis.
+	ast doSemanticAnalysisIn: class.
+	TypingVisitor new visitNode: ast.
 	node := ast bestNodeFor: (anInteger to: anInteger).
 	^ node
 ]
