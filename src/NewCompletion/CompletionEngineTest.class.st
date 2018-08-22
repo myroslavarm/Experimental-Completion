@@ -178,6 +178,23 @@ CompletionEngineTest >> testCompleteMessageWithParameterOffset [
 ]
 
 { #category : #'message sends' }
+CompletionEngineTest >> testCompleteMessageWithTypeInAssignment [
+	| result|
+	result := completer complete: 'methodName
+	
+	| t1 | t1 := 1. t1 ifT'.
+	self assert: (result isEmpty).
+	
+	result := completer complete: 'methodName
+	
+	| t1 | t1 := 1. t1 si'.
+	self assert: (result includes: 'sin').
+
+	
+	
+]
+
+{ #category : #'message sends' }
 CompletionEngineTest >> testCompleteMessageWithTypeKnown [
 	| result|
 	result := completer complete: 'methodName

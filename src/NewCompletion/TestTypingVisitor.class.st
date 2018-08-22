@@ -8,6 +8,21 @@ Class {
 }
 
 { #category : #tests }
+TestTypingVisitor >> testAssignment [
+	| ast node |
+
+	ast := RBParser parseMethod: 'method
+		| t1 |
+		t1 := 1.
+		t1 sin'.
+	ast doSemanticAnalysis.
+	TypingVisitor new visitNode: ast.
+	self assert: ast variableNodes isNotEmpty.
+	node := ast variableNodes second.
+	self assert: (node propertyAt: #type) equals: SmallInteger.
+]
+
+{ #category : #tests }
 TestTypingVisitor >> testGlobal [
 	| ast node |
 
