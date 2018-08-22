@@ -18,11 +18,12 @@ TypingVisitor >> initialize [
 
 { #category : #visiting }
 TypingVisitor >> visitAssignmentNode: anAssignmentNode [
+	"add type of a variable to a dictionary with the key being the variable's name"
 	
 	| variableType |
 	super visitAssignmentNode: anAssignmentNode.
-	anAssignmentNode variable isTemp ifFalse: [^self ].
-   (anAssignmentNode value hasProperty: #type) ifFalse: [^self ].
+	anAssignmentNode variable isTemp ifFalse: [ ^self ].
+   (anAssignmentNode value hasProperty: #type) ifFalse: [ ^self ].
 	variableType := anAssignmentNode value propertyAt: #type.
 	typeDict at: anAssignmentNode variable name put: variableType.
 ]

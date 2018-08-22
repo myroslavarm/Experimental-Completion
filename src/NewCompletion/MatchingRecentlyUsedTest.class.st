@@ -1,3 +1,6 @@
+"
+A little test class for sorting
+"
 Class {
 	#name : #MatchingRecentlyUsedTest,
 	#superclass : #TestCase,

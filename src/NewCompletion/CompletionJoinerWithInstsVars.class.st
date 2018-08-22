@@ -1,3 +1,6 @@
+"
+a little trial class
+"
 Class {
 	#name : #CompletionJoinerWithInstsVars,
 	#superclass : #Object,

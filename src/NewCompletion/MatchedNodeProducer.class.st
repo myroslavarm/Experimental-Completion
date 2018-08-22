@@ -43,6 +43,7 @@ MatchedNodeProducer >> visitLiteralNode: aRBLiteralValueNode [
 
 { #category : #visiting }
 MatchedNodeProducer >> visitMessageNode:  aRBMessageNode [
+	"uses the TypingVisitor and the idea of double dispatch to avoid multiple if statements"
 	| receiver | 
 	receiver := aRBMessageNode receiver.
 	

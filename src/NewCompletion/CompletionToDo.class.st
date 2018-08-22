@@ -1,3 +1,6 @@
+"
+Stef's ideas for what should be considered still
+"
 Class {
 	#name : #CompletionToDo,
 	#superclass : #Object,
@@ -7,9 +10,8 @@ Class {
 { #category : #adding }
 CompletionToDo >> addATest [
 
-	'
-	- add a tests showing that if a class and its subclass have instance variables starting with the same prefix
-	we get in priority the closest one'
+	'add tests showing that if a class and its subclass have instance variables starting with the
+	same prefix we get in priority the closest one'
 ]
 
 { #category : #adding }
@@ -36,8 +38,7 @@ CompletionToDo >> addSomeNegativeTests [
 { #category : #adding }
 CompletionToDo >> addSortingOfTheResults [
 
-	'
-	Results should be sorted: and we probably need strategies to represent different sorting approaches'
+	'results should be sorted: and we probably need strategies to represent different sorting approaches'
 ]
 
 { #category : #'as yet unclassified' }

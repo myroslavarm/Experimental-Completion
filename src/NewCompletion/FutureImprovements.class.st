@@ -1,8 +1,20 @@
+"
+Marcus' ideas for what would be nice to implement
+"
 Class {
 	#name : #FutureImprovements,
 	#superclass : #Object,
 	#category : #'NewCompletion-ToDo'
 }
+
+{ #category : #'as yet unclassified' }
+FutureImprovements >> nestedBlocks [
+
+	"only keep a certain type for a block, i.e.
+	t1 := 1. -- integer
+	something ifTrue: [ t1 := 3.5 ]. -- float
+	t1 ... -- again, integer"
+]
 
 { #category : #'as yet unclassified' }
 FutureImprovements >> parantheses [
