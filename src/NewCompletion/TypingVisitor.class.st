@@ -5,7 +5,7 @@ Class {
 	#name : #TypingVisitor,
 	#superclass : #RBProgramNodeVisitor,
 	#instVars : [
-		'typeDict'
+		'typeStack'
 	],
 	#category : #'NewCompletion-Typing'
 }
@@ -13,7 +13,8 @@ Class {
 { #category : #visiting }
 TypingVisitor >> initialize [
 
-	typeDict := Dictionary new.
+	typeStack := Stack new.
+	typeStack push: Dictionary new.
 ]
 
 { #category : #visiting }
@@ -25,7 +26,23 @@ TypingVisitor >> visitAssignmentNode: anAssignmentNode [
 	anAssignmentNode variable isTemp ifFalse: [ ^self ].
    (anAssignmentNode value hasProperty: #type) ifFalse: [ ^self ].
 	variableType := anAssignmentNode value propertyAt: #type.
-	typeDict at: anAssignmentNode variable name put: variableType.
+	typeStack top at: anAssignmentNode variable name put: variableType.
+]
+
+{ #category : #visiting }
+TypingVisitor >> visitBlockNode: aBlockNode [
+	| stackTop |
+	typeStack push: typeStack top copy.
+	super visitBlockNode: aBlockNode.
+	stackTop := typeStack pop.
+	stackTop keysDo: [ :name | 
+			| type1 type2 |
+			type2 := stackTop at: name.
+			(typeStack top includesKey: name)
+				ifFalse: [ typeStack top at: name put: type2 ]
+				ifTrue: [ type1 := typeStack top at: name. 
+					type1 == type2 ifFalse: [ typeStack top at: name put: (type2 commonSuperclass: type1) ] ] ].
+	aBlockNode propertyAt: #type put: BlockClosure
 ]
 
 { #category : #visiting }
@@ -51,6 +68,6 @@ TypingVisitor >> visitSuperNode: aSuperNode [
 
 { #category : #visiting }
 TypingVisitor >> visitTemporaryNode: aTemporaryNode [
-	(typeDict includesKey: aTemporaryNode name) ifFalse: [^self ].
-	aTemporaryNode propertyAt: #type put: (typeDict at: aTemporaryNode name)
+	(typeStack top includesKey: aTemporaryNode name) ifFalse: [^self ].
+	aTemporaryNode propertyAt: #type put: (typeStack top at: aTemporaryNode name)
 ]
