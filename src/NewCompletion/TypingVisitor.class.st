@@ -1,5 +1,5 @@
 "
-A visitor that lets us know type of literals
+A visitor that does the typing for better completion. No type guessing, just using the information that's already known to the system
 "
 Class {
 	#name : #TypingVisitor,
@@ -19,7 +19,9 @@ TypingVisitor >> initialize [
 
 { #category : #visiting }
 TypingVisitor >> visitAssignmentNode: anAssignmentNode [
-	"add type of a variable to a dictionary with the key being the variable's name"
+	"if not a temporary variable - return.
+	if no type return.
+	add type of a variable to a dictionary with the key being the variable's name"
 	
 	| variableType |
 	super visitAssignmentNode: anAssignmentNode.
@@ -31,6 +33,7 @@ TypingVisitor >> visitAssignmentNode: anAssignmentNode [
 
 { #category : #visiting }
 TypingVisitor >> visitBlockNode: aBlockNode [
+	"inside a stack we push a copy of an already existing dictionary (with the state of variables before the block) because in the block we want to know the previous state of variables, and then if inside the block the type of the variable changes we update our copy. after the block exit if the variable type has changed explicitly again, then we take after-block change, otherwise we take the last before-block type and the last inside-block type and if they are the same the type stays the same, otherwise it's updated to their common superclass, because we don't know if the block executes so want suggestions from either"
 	| stackTop |
 	typeStack push: typeStack top copy.
 	super visitBlockNode: aBlockNode.
@@ -48,7 +51,6 @@ TypingVisitor >> visitBlockNode: aBlockNode [
 { #category : #visiting }
 TypingVisitor >> visitGlobalNode: aGlobalNode [
 	aGlobalNode propertyAt: #type put: (Smalltalk globals at: aGlobalNode name) class.
-	"super visitVariableNode: aSelfNode"
 ]
 
 { #category : #visiting }

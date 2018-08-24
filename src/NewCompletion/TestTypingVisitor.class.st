@@ -1,5 +1,5 @@
 "
-a test class
+A test class for testing the typing visitor
 "
 Class {
 	#name : #TestTypingVisitor,
@@ -38,6 +38,24 @@ TestTypingVisitor >> testBlock [
 	node := ast variableNodes fourth.
 	self assert: ((node propertyAt: #type) isClass and:
 			[ (node propertyAt: #type) = Number ] )
+]
+
+{ #category : #tests }
+TestTypingVisitor >> testBlockSameType [
+	| ast node |
+
+	ast := RBParser parseMethod: 'method
+			| t1 t2|
+			t1 := 1.
+			1 ifTrue: [ t1 := 2. t2 := 1 ].
+			t1 sin'.
+	ast doSemanticAnalysis.
+
+	TypingVisitor new visitNode: ast.
+	self assert: ast variableNodes isNotEmpty.
+	node := ast variableNodes fourth.
+	self assert: ((node propertyAt: #type) isClass and:
+			[ (node propertyAt: #type) = SmallInteger ] )
 ]
 
 { #category : #tests }
