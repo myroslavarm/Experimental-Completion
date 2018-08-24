@@ -76,7 +76,7 @@ MatchedNodeProducer >> visitTemporaryNode: aNode [
 
 { #category : #visiting }
 MatchedNodeProducer >> visitVariableNode: aRBVariableNode [  
-    (aRBVariableNode isDefinition and: [ aRBVariableNode parent defines: aRBVariableNode name ])ifTrue: [ ^#() ].
+    aRBVariableNode isDefinition ifTrue: [ ^#() ].
     (aRBVariableNode isArgument ifTrue: [ ^#() ]).
 	"using a stream to store results should be better"
 	^ (self select: Smalltalk globals keys beginningWith: aRBVariableNode name) , 

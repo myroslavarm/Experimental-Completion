@@ -158,8 +158,8 @@ CompletionEngineTest >> testCompleteMessageWithParameter [
 	| result|
 	result := completer complete: 'methodName
 	
-	true ifTrue: [1] ifF'.
-	self assert: (result includes: 'ifFalse:').
+	true ifTrue: [1] ifN'.
+	self assert: (result includes: 'ifNil:').
 
 	
 	
