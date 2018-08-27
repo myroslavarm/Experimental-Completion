@@ -51,21 +51,6 @@ CompletionEngine >> findNodeOf: aString withOffset: anInteger [
 	^ node
 ]
 
-{ #category : #'to remove' }
-CompletionEngine >> showListFor: aString nextCharacter: aCharacter offset: anInteger inClass: aClass [ 
-
-	| node guy options morph |
-	node := self findNodeOf: aString withOffset: anInteger.
-	guy := MatchedNodeProducer new.
-	guy completionContext: aClass.
-	options := guy completionListForNode: node inserting: aCharacter . 
-	
-	morph := CompletionListMorph new.
-	morph initializeWith: options.
-	morph openInWindow.
-
-]
-
 { #category : #sorting }
 CompletionEngine >> sortList: aList [
 
