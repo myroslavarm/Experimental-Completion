@@ -14,12 +14,12 @@ Class {
 { #category : #'as yet unclassified' }
 MatchingRecentlyUsed >> emptyCacheBasedOnCompiledMethod: aCompiledMethod [ 
 	messages isEmpty ifFalse: [
-		messages remove: aCompiledMethod ].
-
-	"aCompiledMethod allLiterals do: [ :l |
+		 messages removeAllFoundIn: aCompiledMethod messages ].
+	messages remove: aCompiledMethod selector ifAbsent: [].
+	aCompiledMethod allLiterals do: [ :l |
 	
 		l class = GlobalVariable 
-			ifTrue: [ globals remove: l value ] ]"
+			ifTrue: [ globals remove: l value ifAbsent: [] ]]
 ]
 
 { #category : #'as yet unclassified' }
@@ -59,4 +59,23 @@ MatchingRecentlyUsed >> messagesIncludes: aSymbol [
 { #category : #testing }
 MatchingRecentlyUsed >> messagesIsEmpty [ 
 	^ messages isEmpty
+]
+
+{ #category : #'as yet unclassified' }
+MatchingRecentlyUsed >> sortGlobals: aCollection [ 
+	| result size |
+	size := globals size + 1. 
+	result := aCollection collect: [ :each | each -> (globals reversed indexOf: each ifAbsent: [ size ]) ].
+	result sort: [ :a :b | a value < b value ].
+	^result collect: [ :each | each key].
+]
+
+{ #category : #sorting }
+MatchingRecentlyUsed >> sortMessages: aCollection [
+	"return aCollectin with the ones in messages sorted first"
+	| result size |
+	size := messages size + 1. 
+	result := aCollection collect: [ :each | each -> (messages reversed indexOf: each ifAbsent: [ size ]) ].
+	result sort: [ :a :b | a value < b value ].
+	^result collect: [ :each | each key].
 ]

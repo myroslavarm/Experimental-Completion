@@ -31,6 +31,7 @@ MatchingRecentlyUsedTest >> testEmptyUpGlobalsCache [
 
 	| matcher |
 	matcher := MatchingRecentlyUsed new.
+	matcher fillCacheBasedOnCompiledMethod: (MatchingRecentlyUsedTest>> #foo).
 	matcher emptyCacheBasedOnCompiledMethod: (MatchingRecentlyUsedTest>> #foo).
 	self assert: matcher globalsIsEmpty equals: true.
 ]
@@ -40,6 +41,7 @@ MatchingRecentlyUsedTest >> testEmptyUpMessagesCache [
 
 	| matcher |
 	matcher := MatchingRecentlyUsed new.
+	matcher fillCacheBasedOnCompiledMethod: (MatchingRecentlyUsedTest>> #foo).	
 	matcher emptyCacheBasedOnCompiledMethod: (MatchingRecentlyUsedTest>> #foo).
 	self assert: (matcher messagesIncludes: #isEmpty) equals: false.
 	self assert: (matcher messagesIncludes: #foo) equals: false.
@@ -63,4 +65,28 @@ MatchingRecentlyUsedTest >> testFillUpMessagesCache [
 	matcher fillCacheBasedOnCompiledMethod: (MatchingRecentlyUsedTest>> #foo).
 	self assert: (matcher messagesIncludes: #isEmpty).
 	self assert: (matcher messagesIncludes: #foo).
+]
+
+{ #category : #tests }
+MatchingRecentlyUsedTest >> testSortGlobals [
+
+	| matcher |
+	matcher := MatchingRecentlyUsed new.
+	matcher fillCacheBasedOnCompiledMethod: (MatchingRecentlyUsedTest>> #foo).
+	
+	self assert: (matcher sortGlobals: {Object . OrderedCollection}) equals: { OrderedCollection . Object }
+	
+]
+
+{ #category : #tests }
+MatchingRecentlyUsedTest >> testSortMessages [
+
+	| matcher |
+	matcher := MatchingRecentlyUsed new.
+	matcher fillCacheBasedOnCompiledMethod: (MatchingRecentlyUsedTest>> #foo).
+	self assert: (matcher messagesIncludes: #isEmpty).
+	self assert: (matcher messagesIncludes: #foo).
+	
+	self assert: (matcher sortMessages: #(#bar #isEmpty #foo)) equals: #(#foo #isEmpty #bar).
+	
 ]

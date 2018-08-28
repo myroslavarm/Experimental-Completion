@@ -405,3 +405,21 @@ CompletionEngineTest >> testSortInReverseOrder [
 	
 	
 ]
+
+{ #category : #'tests - sorting' }
+CompletionEngineTest >> testSortUsed [
+	| result matcher |
+	result := completer complete: 'methodName
+	
+	(1+2) foo'.
+	
+	matcher := MatchingRecentlyUsed new.
+	matcher fillCacheBasedOnCompiledMethod: (MatchingRecentlyUsedTest>> #foo).
+	completer sorter: (RecentSorter new matcher: matcher).
+	result := completer sortList: result.
+	self assert: (result includes: 'fooo').
+	self assert: (result third = 'foo2').
+	self assert: (result first = 'foo').
+	
+	
+]

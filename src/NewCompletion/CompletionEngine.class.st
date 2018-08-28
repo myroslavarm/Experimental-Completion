@@ -54,7 +54,7 @@ CompletionEngine >> findNodeOf: aString withOffset: anInteger [
 { #category : #sorting }
 CompletionEngine >> sortList: aList [
 
-		^ sorter sortCompletionList: aList 
+		^ sorter sortCompletionList: aList asOrderedCollection  
 ]
 
 { #category : #sorting }
