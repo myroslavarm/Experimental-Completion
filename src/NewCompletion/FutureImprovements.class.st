@@ -34,3 +34,10 @@ FutureImprovements >> pragma [
 	1. make sure the parses creates the pragma node correctly
 	2. alternatively, handle it in visit method node"
 ]
+
+{ #category : #'as yet unclassified' }
+FutureImprovements >> toSwitchBetweenCompletions [
+
+NECController contextClass: CompletionContext.
+"NECController contextClass: NECContext"
+]
