@@ -33,6 +33,10 @@ MatchingRecentlyUsed >> fillCacheBasedOnCompiledMethod: aCompiledMethod [
 			ifTrue: [ globals add: l value ] ]
 ]
 
+{ #category : #'as yet unclassified' }
+MatchingRecentlyUsed >> foo [
+]
+
 { #category : #testing }
 MatchingRecentlyUsed >> globalsIncludes: aClass [ 
 	^ globals includes: aClass
@@ -59,6 +63,37 @@ MatchingRecentlyUsed >> messagesIncludes: aSymbol [
 { #category : #testing }
 MatchingRecentlyUsed >> messagesIsEmpty [ 
 	^ messages isEmpty
+]
+
+{ #category : #'as yet unclassified' }
+MatchingRecentlyUsed >> methodAdded: aMethodAddition [
+
+	self fillCacheBasedOnCompiledMethod: aMethodAddition method
+]
+
+{ #category : #'system changes' }
+MatchingRecentlyUsed >> methodModified: aMethodModification [
+
+	self fillCacheBasedOnCompiledMethod: aMethodModification method
+
+	
+]
+
+{ #category : #'system changes' }
+MatchingRecentlyUsed >> methodRemoved: aMethodRemoval [
+
+	self emptyCacheBasedOnCompiledMethod: aMethodRemoval method
+
+	
+]
+
+{ #category : #'as yet unclassified' }
+MatchingRecentlyUsed >> register [
+
+	SystemAnnouncer uniqueInstance private weak
+		when: MethodAdded send: #methodAdded: to: self;
+		when: MethodModified send: #methodModified: to: self;
+		when: MethodRemoved send: #methodRemoved: to: self
 ]
 
 { #category : #'as yet unclassified' }
