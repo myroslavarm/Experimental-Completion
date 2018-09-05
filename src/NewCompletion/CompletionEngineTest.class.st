@@ -412,7 +412,6 @@ CompletionEngineTest >> testSortUsed [
 	result := completer complete: 'methodName
 	
 	(1+2) foo'.
-	
 	matcher := MatchingRecentlyUsed new.
 	matcher fillCacheBasedOnCompiledMethod: (MatchingRecentlyUsedTest>> #foo).
 	completer sorter: (RecentSorter new matcher: matcher).
