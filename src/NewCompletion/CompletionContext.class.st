@@ -12,7 +12,8 @@ Class {
 		'ast',
 		'node',
 		'variables',
-		'selectors'
+		'selectors',
+		'context'
 	],
 	#category : #'NewCompletion-Model'
 }
@@ -29,8 +30,12 @@ CompletionContext class >> controller: aNECController class: aClass source: aStr
 { #category : #accessing }
 CompletionContext >> completionToken [
 	"here we need to return the name of the var or selector"
-	node := ast bestNodeFor: (position to: position).
-	^node selector
+	node isLiteralNode ifTrue: [ ^ node value asString ].
+	node isMethod ifTrue: [ ^ node selector asString ].
+	^completionToken
+		ifNil: [ node isMessage
+			ifTrue: [ node selector ]
+			ifFalse: [ node name ] ]
 ]
 
 { #category : #action }
@@ -41,16 +46,26 @@ CompletionContext >> configureSelectorsAndVariables [
 ]
 
 { #category : #accessing }
+CompletionContext >> context: aCompletionContext [
+	context := aCompletionContext.
+]
+
+{ #category : #accessing }
 CompletionContext >> createModel [
 	"to be implemented"
+	node isLiteralNode ifTrue: [ ^NECEmptyModel new ].
+	node isMethod ifTrue: [ ^NECEmptyModel new ].
 	self receiverClass
-		ifNotNil: [^ NECTypedModel class: receiverClass].	
+		ifNotNil: [^ NECTypedModel class: receiverClass].
+	variables := false. selectors  := true.
+	node isMessage ifFalse: [  variables := true. selectors  := true ].
+	"self context: model."
 	^ NECUntypedModel
 		class: theClass
 		temporaries: (ast isMethod ifTrue: [ ast temporaryNames ] ifFalse: [ #() ])
 		additionals: #()
-		variables: false
-		selectors: true
+		variables: variables
+		selectors: selectors
 ]
 
 { #category : #accessing }
@@ -62,24 +77,23 @@ CompletionContext >> model [
 { #category : #action }
 CompletionContext >> narrowWith: aString [ 
 	completionToken := aString.
-	model ifNotNil: [ model narrowWith: aString ].
-	node := ast bestNodeFor: (position to: position).
+	model ifNotNil: [ model narrowWith: aString].
 ]
 
 { #category : #parsing }
 CompletionContext >> parseSource [
 	(theClass = UndefinedObject) 
 		ifTrue: [ ast :=  RBParser parseFaultyExpression: source ]
-		ifFalse: [ ast := RBParser parseFaultyMethod: source ].
+		ifFalse: [ ast := RBParser parseFaultyMethod: source ]. 
 	ast doSemanticAnalysis.
 	TypingVisitor new visitNode: ast.
 ]
 
 { #category : #accessing }
 CompletionContext >> receiverClass [
-
+	node isMessage ifFalse: [ ^nil ].
 	receiverClass := node receiver propertyAt: #type ifAbsent: [ nil ] .
-	^ receiverClass 
+	^ receiverClass
 ]
 
 { #category : #'as yet unclassified' }
