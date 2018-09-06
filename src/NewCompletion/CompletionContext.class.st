@@ -1,3 +1,6 @@
+"
+I am a context class that hooks the new completion functionality into the system. To do that, i reimplement some of the methods but use most of the old ones from NECompletion package, such as the functionality to call the menu, etc.
+"
 Class {
 	#name : #CompletionContext,
 	#superclass : #Object,
@@ -96,7 +99,7 @@ CompletionContext >> receiverClass [
 	^ receiverClass
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'initialize-release' }
 CompletionContext >> setController: aECController class: aClass source: aString position: anInteger [ 
 	controller := aECController.
 	theClass := aClass ifNil: [ UndefinedObject ].

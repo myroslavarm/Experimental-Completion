@@ -10,7 +10,7 @@ Class {
 	#category : #'NewCompletion-Mock'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'test mock' }
 OtherCompletionMockClass >> fooo2 [
 
 	^ 666

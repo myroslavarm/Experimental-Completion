@@ -11,7 +11,7 @@ Class {
 	#category : #'NewCompletion-Model'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #caching }
 MatchingRecentlyUsed >> emptyCacheBasedOnCompiledMethod: aCompiledMethod [ 
 	messages isEmpty ifFalse: [
 		 messages removeAllFoundIn: aCompiledMethod messages ].
@@ -22,7 +22,7 @@ MatchingRecentlyUsed >> emptyCacheBasedOnCompiledMethod: aCompiledMethod [
 			ifTrue: [ globals remove: l value ifAbsent: [] ]]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #caching }
 MatchingRecentlyUsed >> fillCacheBasedOnCompiledMethod: aCompiledMethod [ 
 	messages addAll: aCompiledMethod messages.
 	messages add: aCompiledMethod selector.
@@ -33,7 +33,7 @@ MatchingRecentlyUsed >> fillCacheBasedOnCompiledMethod: aCompiledMethod [
 			ifTrue: [ globals add: l value ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'test mock' }
 MatchingRecentlyUsed >> foo [
 ]
 
@@ -65,7 +65,7 @@ MatchingRecentlyUsed >> messagesIsEmpty [
 	^ messages isEmpty
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'system changes' }
 MatchingRecentlyUsed >> methodAdded: aMethodAddition [
 
 	self fillCacheBasedOnCompiledMethod: aMethodAddition method
@@ -87,7 +87,7 @@ MatchingRecentlyUsed >> methodRemoved: aMethodRemoval [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #caching }
 MatchingRecentlyUsed >> register [
 
 	SystemAnnouncer uniqueInstance private weak
@@ -96,7 +96,7 @@ MatchingRecentlyUsed >> register [
 		when: MethodRemoved send: #methodRemoved: to: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #sorting }
 MatchingRecentlyUsed >> sortGlobals: aCollection [ 
 	| result size |
 	size := globals size + 1. 

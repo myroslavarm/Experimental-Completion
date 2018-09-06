@@ -8,13 +8,13 @@ Class {
 CompletionMockSubClass class >> fooClassInSubclass [
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'test mock' }
 CompletionMockSubClass >> foo2 [
 
 	^ 'hello foo2'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'test mock' }
 CompletionMockSubClass >> fooo [
 
 	^ 42

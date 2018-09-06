@@ -22,13 +22,13 @@ CompletionMockClass class >> fooClass [
 	^ 'bye'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'test mock' }
 CompletionMockClass >> foo1 [
 
 	^ 'hello foo1'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'test mock' }
 CompletionMockClass >> fooArg: aString [
 
 	^ aString
