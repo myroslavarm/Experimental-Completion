@@ -33,12 +33,9 @@ CompletionContext class >> controller: aNECController class: aClass source: aStr
 { #category : #accessing }
 CompletionContext >> completionToken [
 	"here we need to return the name of the var or selector"
-	node isLiteralNode ifTrue: [ ^ node value asString ].
-	node isMethod ifTrue: [ ^ node selector asString ].
+	node isNil ifTrue: [ ^ '' ].
 	^completionToken
-		ifNil: [ node isMessage
-			ifTrue: [ node selector ]
-			ifFalse: [ node name ] ]
+		ifNil: [ node completionToken ]
 ]
 
 { #category : #action }
@@ -56,6 +53,7 @@ CompletionContext >> context: aCompletionContext [
 { #category : #accessing }
 CompletionContext >> createModel [
 	"to be implemented"
+	node isNil ifTrue: [ ^NECEmptyModel new ].
 	node isLiteralNode ifTrue: [ ^NECEmptyModel new ].
 	node isMethod ifTrue: [ ^NECEmptyModel new ].
 	self receiverClass
