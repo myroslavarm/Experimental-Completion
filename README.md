@@ -7,7 +7,8 @@ The spec (which is in the NewCompletionSpec package) can be opened by executing:
 CompletionSpec new openWithSpec 
 ```
 
-Some functionality (mainly the CompletionContext class) was added to hook the new completion into the system, using clened up and refactored code of the old completion. Using CompletionController the completion is appearing in the settings as the third completion option, can be enabled by going to Settings Browser-> Code Browsing -> Code Completion, and then in the Controller section selecting CompletionController (as in the screenshot below):
+Some functionality (mainly the CompletionContext class) was added to hook the new completion into the system, using cleaned up and refactored code of the old completion. Using CompletionController the completion is appearing in the settings as the third completion option. It can be enabled by going to Settings Browser-> Code Browsing -> Code Completion, and then in the Controller section selecting CompletionController (see screenshot; NECController would represent the completion used in Pharo by default):
+
 ![alt text](https://github.com/myroslavarm/Experimental-Completion/blob/master/github.png)
 
-So far only some of the basic typing functionality can actually be used by the system, most of the improvements are yet to replace the old functionality.
+So far this is still a work in progress: as of now only some of the basic typing functionality was done to actually be used by the system, most of the actual NewCompletion improvements are yet to replace the old functionality.
