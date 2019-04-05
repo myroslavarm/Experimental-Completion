@@ -46,9 +46,12 @@ CompletionSpec >> buttonPressed [
 	| joiner |
 	"resultList items: (1 to: 35 atRandom)"
 	joiner := CompletionEngine new.
-	resultList items: (joiner complete: screen text asString offset: screen getSelection last inClass: classList selectedItem)
-	
-
+	resultList
+		items:
+			(joiner
+				complete: screen text asString
+				offset: screen getSelection last
+				inClass: classList selection selectedItem) asOrderedCollection
 ]
 
 { #category : #accessing }
