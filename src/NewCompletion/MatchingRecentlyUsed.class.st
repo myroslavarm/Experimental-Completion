@@ -1,5 +1,8 @@
 "
-I'm a matcher for recently used/modifed/created methods and variables
+I'm a matcher for recently used/modifed/created methods and variables.
+I am initialized empty, and then I get my entries from system announcements (when methods are added, removed or modified).
+
+I add inside the completion list the messages sent in the method and the globals used inside it.
 "
 Class {
 	#name : #MatchingRecentlyUsed,
