@@ -42,7 +42,9 @@ CompletionEngine >> complete: aString offset: anInteger inClass: aClass [
 ]
 
 { #category : #helper }
-CompletionEngine >> findNodeOf: aString withOffset: anInteger [ 
+CompletionEngine >> findNodeOf: aString withOffset: anInteger [
+	"this method does the semantic analysis of the ast that was gotten from the available string,
+	and then finds the best node for this ast"
 	| node |	
 	ast := RBParser parseFaultyMethod: aString.
 	ast doSemanticAnalysisIn: class.
@@ -53,12 +55,12 @@ CompletionEngine >> findNodeOf: aString withOffset: anInteger [
 
 { #category : #sorting }
 CompletionEngine >> sortList: aList [
-
-		^ sorter sortCompletionList: aList asOrderedCollection  
+	"this is where the sorting strategy is set"
+	^ sorter sortCompletionList: aList asOrderedCollection  
 ]
 
 { #category : #sorting }
 CompletionEngine >> sorter: aSorter [
-
+	"the functionality allowing to hook up the sorter"
 	sorter := aSorter
 ]
