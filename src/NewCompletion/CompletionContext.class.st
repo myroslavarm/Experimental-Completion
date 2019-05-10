@@ -76,7 +76,8 @@ CompletionContext >> model [
 ]
 
 { #category : #action }
-CompletionContext >> narrowWith: aString [ 
+CompletionContext >> narrowWith: aString [
+	"method borrowed from NECContext to make the completion plugging work"
 	completionToken := aString.
 	model ifNotNil: [ model narrowWith: aString].
 ]

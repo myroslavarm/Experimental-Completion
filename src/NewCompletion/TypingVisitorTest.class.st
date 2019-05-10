@@ -2,13 +2,13 @@
 A test class for testing the typing visitor
 "
 Class {
-	#name : #TestTypingVisitor,
+	#name : #TypingVisitorTest,
 	#superclass : #TestCase,
-	#category : #'NewCompletion-Typing'
+	#category : #'NewCompletion-Tests'
 }
 
 { #category : #tests }
-TestTypingVisitor >> testAssignment [
+TypingVisitorTest >> testAssignment [
 	| ast node |
 
 	ast := RBParser parseMethod: 'method
@@ -23,7 +23,7 @@ TestTypingVisitor >> testAssignment [
 ]
 
 { #category : #tests }
-TestTypingVisitor >> testBlock [
+TypingVisitorTest >> testBlock [
 	| ast node |
 
 	ast := RBParser parseMethod: 'method
@@ -41,7 +41,7 @@ TestTypingVisitor >> testBlock [
 ]
 
 { #category : #tests }
-TestTypingVisitor >> testBlockSameType [
+TypingVisitorTest >> testBlockSameType [
 	| ast node |
 
 	ast := RBParser parseMethod: 'method
@@ -59,7 +59,7 @@ TestTypingVisitor >> testBlockSameType [
 ]
 
 { #category : #tests }
-TestTypingVisitor >> testGlobal [
+TypingVisitorTest >> testGlobal [
 	| ast node |
 
 	ast := RBParser parseMethod: 'open Transcript test'.
@@ -72,7 +72,7 @@ TestTypingVisitor >> testGlobal [
 ]
 
 { #category : #tests }
-TestTypingVisitor >> testLiteral [
+TypingVisitorTest >> testLiteral [
 	| ast |
 
 	ast := RBParser parseExpression: '1. #literal'.
@@ -83,7 +83,7 @@ TestTypingVisitor >> testLiteral [
 ]
 
 { #category : #tests }
-TestTypingVisitor >> testSelf [
+TypingVisitorTest >> testSelf [
 	| ast node |
 
 	ast := RBParser parseMethod: 'method self foo'.
@@ -96,7 +96,7 @@ TestTypingVisitor >> testSelf [
 ]
 
 { #category : #tests }
-TestTypingVisitor >> testSuper [
+TypingVisitorTest >> testSuper [
 	| ast node |
 
 	ast := RBParser parseMethod: 'method super foo'.

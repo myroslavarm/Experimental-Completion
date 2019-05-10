@@ -11,7 +11,7 @@ Class {
 		'globals',
 		'messages'
 	],
-	#category : #'NewCompletion-Model'
+	#category : #'NewCompletion-Tests'
 }
 
 { #category : #setup }

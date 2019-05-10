@@ -44,7 +44,7 @@ CompletionEngine >> complete: aString offset: anInteger inClass: aClass [
 { #category : #helper }
 CompletionEngine >> findNodeOf: aString withOffset: anInteger [
 	"this method does the semantic analysis of the ast that was gotten from the available string,
-	and then finds the best node for this ast"
+	and then finds node that matches this ast best, i.e. for '1 si' with the cursor at the end it should give the message node"
 	| node |	
 	ast := RBParser parseFaultyMethod: aString.
 	ast doSemanticAnalysisIn: class.

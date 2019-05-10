@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'typeStack'
 	],
-	#category : #'NewCompletion-Typing'
+	#category : #'NewCompletion-Model'
 }
 
 { #category : #visiting }

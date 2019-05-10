@@ -10,7 +10,7 @@ Class {
 		'offset',
 		'inClass'
 	],
-	#category : #'NewCompletion-ToDo'
+	#category : #'NewCompletion-Mock'
 }
 
 { #category : #completion }
