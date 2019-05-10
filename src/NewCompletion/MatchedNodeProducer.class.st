@@ -1,5 +1,5 @@
 "
-I'm a little visitor
+I'm a little visitor. I take the specific node of the string that has to be completed and based on that node I give the list of completion results.
 "
 Class {
 	#name : #MatchedNodeProducer,
