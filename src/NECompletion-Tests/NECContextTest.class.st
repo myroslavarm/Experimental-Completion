@@ -233,21 +233,23 @@ NECContextTest >> testReceiverConstant [
 
 { #category : #tests }
 NECContextTest >> testReceiverGlobal [
-	| text context |
+	| text context model |
 	text := 'testIt
-	Dictionary n'.
+	Dictionary ne'.
 	context := self createContextFor: text at: text size.
-	self assert: context receiverClass == Dictionary class.
+	model := context model.
+	self assert: ((model entries collect: #contents) includes: #new).
 
 ]
 
 { #category : #tests }
 NECContextTest >> testReceiverGlobalVarNew [
-	| text context |
+	| text context model |
 	text := 'testIt
-	Dictionary new a'.
+	Dictionary new fl'.
 	context := self createContextFor: text at: text size.
-	self assert: context receiverClass == Dictionary.
+	model := context model.
+	self assert: ((model entries collect: #contents) includes: #flatCollect:).
 
 ]
 
@@ -393,7 +395,7 @@ NECContextTest >> testUntypedSelectorsOnly [
 	context := self createContextFor: text at: text size.
 	model := context model.
 	self assert: model hasMessage.
-	self assert: model message = 'press key for selectors'.
+	self assert: model message equals: 'press key for selectors'.
 	context narrowWith: 'ab'.
 	self assert: ((model entries collect: #contents) includes: #abs)
 ]
