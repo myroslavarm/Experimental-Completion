@@ -253,98 +253,51 @@ NECContextTest >> testReceiverGlobalVarNew [
 
 { #category : #tests }
 NECContextTest >> testReceiverTempVar [
-	| text context |
+	| text context model |
 	text := 'testIt
 	| aha |
-	aha _ ''test''.
-	aha p'.
+	aha := ''test''.
+	aha pa'.
 	context := self 
 		createContextFor: text
 		at: text size.
-	self assert: context receiverClass == ByteString.
+	model := context model.
+	self assert: ((model entries collect: #contents) includes: #padLeftTo:).
+	
 	text := 'testIt
 	| aha |
-	ah _ ''test''.
+	ah := ''test''.
 	ah p'.
 	context := self 
 		createContextFor: text
 		at: text size.
 	self assert: context receiverClass isNil.
-	text := 'testIt
-	| aha |
-	aha _ constantString.
-	aha p'.
-	context := self 
-		createContextFor: text
-		at: text size.
-	self assert: context receiverClass == ByteString.
-	text := 'testIt
-	| aha |
-	aha _ constant asDate.
-	aha p'.
-	context := self 
-		createContextFor: text
-		at: text size.
-	self assert: context receiverClass isNil.
+	
 	text := 'testIt
 	| aha bili |
-	aha _ constantString.
-	bili _ aha.
-	bili p'.
+	aha := String.
+	bili := aha.
+	bili s'.
 	context := self 
 		createContextFor: text
 		at: text size.
-	self assert: context receiverClass == ByteString.
-	text := 'testIt
-	| aha bili |
-	aha _ constantString.
-	bili _ aha _ 15.
-	bili p'.
-	context := self 
-		createContextFor: text
-		at: text size.
-	self assert: context receiverClass = SmallInteger.
-	text := 'testIt
-	| aha bili |
-	aha _ constantString.
-	bili _ 15.
-	bili _ aha.
-	bili p'.
-	context := self 
-		createContextFor: text
-		at: text size.
-	self assert: context receiverClass == SmallInteger.
-	text := 'testIt
-	[ :each | |a| a _ 16. a print'.
-	context := self 
-		createContextFor: text
-		at: text size.
-	self assert: context receiverClass == SmallInteger.
-	text := 'testIt
-	[ :each | |a| a _ Dictionary new. a print'.
-	context := self 
-		createContextFor: text
-		at: text size.
-	self assert: context receiverClass == Dictionary.
-	text := 'testIt
-	[ :each | |a| a _ Dictionary. a print'.
-	context := self 
-		createContextFor: text
-		at: text size.
-	self assert: context receiverClass == Dictionary class.
+	model := context model.
+	self assert: ((model entries collect: #contents) includes: #size).
+	
 	text := 'testIt
 	| aha |
-	aha _ constantLargeInteger.
-	aha p'.
+	aha := LargePositiveInteger.
+	aha pr'.
 	context := self 
 		createContextFor: text
 		at: text size.
-	self assert: context receiverClass = LargePositiveInteger.
+	model := context model.
+	self assert: ((model entries collect: #contents) includes: #primesUpTo:)
 ]
 
 { #category : #tests }
 NECContextTest >> testReceiverTempVar2 [
-	| text context |
+	| text context model |
 	text := 'openMenuFor: aParagraphEditor 
 	| theMenu |
 	context := NECContext
@@ -357,15 +310,17 @@ NECContextTest >> testReceiverTempVar2 [
 				controller: self
 				position: (aParagraphEditor selectionPosition: context completionToken).
 	theMenu isClosed
-		ifFalse: [menuMorph := theMenu]. theMenu o'.
+		ifFalse: [menuMorph := theMenu]. theMenu ins'.
 	context := self createContextFor: text at: text size.
-	self assert: context receiverClass == NECMenuMorph
+	model := context model.
+	self assert: ((model entries collect: #contents) includes: #insertCommonPrefixOrSelected).
+	self assert: model class equals: NECTypedModel
 ]
 
 { #category : #tests }
 NECContextTest >> testReceiverTempVar3 [
 "if tempvar assignment is from a keyword message send (case 3), the guessed type should be 'nil' as in case for simple messages. Don't move over to other var assignments (smallint for var b)"
-	| text context |
+	| text context model |
 	"case 1 guess from constant"
 	text := 'testIt
 	| a b |
@@ -389,14 +344,14 @@ NECContextTest >> testReceiverTempVar3 [
 	"case 3 can not guess from return value of a keyword message send"
 	text := 'testIt
 	| a b |
-	a _ self init:''test''.
-	b _ 10.
+	a := self init:''test''.
+	b := 10.
 	a as'.
 	context := self 
 		createContextFor: text
 		at: text size.
-	self assert: context receiverClass isNil.
-
+	model := context model.
+	self assert: model class equals: NECUntypedModel
 ]
 
 { #category : #tests }
