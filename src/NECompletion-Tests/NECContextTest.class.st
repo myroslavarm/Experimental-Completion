@@ -89,18 +89,21 @@ NECContextTest >> testCompletionTokenEmpty [
 
 { #category : #tests }
 NECContextTest >> testCreateModel [
-	| text context |
+	| text context model |
 	text := 'testIt: aRectangle
 	aRectangle printS'.
 	context := self createContextFor: text at: text size.
-	self assert: context createModel class == NECTypedModel.
+	model := context model.
+	self assert: model class == NECTypedModel.
 	text := 'testIt:'.
 	context := self createContextFor: text at: text size.
-	self assert: context createModel class = NECUntypedModel.
+	model := context model.
+	self assert: model class equals: NECUntypedModel.
 	text := 'testIt: rect
 	rect is'.
 	context := self createContextFor: text at: text size.
-	self assert: context createModel class = NECUntypedModel
+	model := context model.
+	self assert: model class equals: NECUntypedModel
 ]
 
 { #category : #tests }
@@ -120,36 +123,38 @@ NECContextTest >> testInTheMiddelOfAWord [
 
 { #category : #tests }
 NECContextTest >> testReceiverArgument [
-	| text context |
+	| text context model |
 	text := 'testIt: aRectangle
 	aRectangle printS'.
 	context := self 
 		createContextFor: text
 		at: text size.
-	self assert: context receiverClass == Rectangle.
+	model := context model.
+	self assert: ((model entries collect: #contents) includes: #printString).
 	text := 'testIt: rect
 	rect is'.
 	context := self 
 		createContextFor: text
 		at: text size.
-	self assert: context receiverClass isNil
+	model := context model.
+	self assert: model class equals: NECUntypedModel
 ]
 
 { #category : #tests }
 NECContextTest >> testReceiverCascade [
-	| text context |
+	| text context model |
 	text := 'testIt
 	| b |
-	b _ Stream new.
+	b := Stream new.
 	b 
 		nextPutAll: ''test''; 
 		nextPut: $c;
-		s'.
+		st'.
 	context := self createContextFor: text at: text size.
 	self assert: context receiverClass == Stream.
 	text := 'testIt
 	| b |
-	b _ Stream new
+	b := Stream new
 		nextPutAll: ''test''; 
 		nextPut: $c with: true;
 		s'.
@@ -162,73 +167,94 @@ NECContextTest >> testReceiverCascade [
 		nextPut: $c with: true;
 		s'.
 	context := self createContextFor: text at: text size.
-	self assert: context receiverClass == Stream.
+	model := context model.
+	self assert: ((model entries collect: #contents) includes: #stepTime).
 	text := 'testIt: aStream
 	aStream
 		nextPutAll: ''test''; 
 		nextPut: $c with: true;
 		s'.
 	context := self createContextFor: text at: text size.
-	self assert: context receiverClass == Stream
+	model := context model.
+	self assert: ((model entries collect: #contents) includes: #stepTime).
 ]
 
 { #category : #tests }
 NECContextTest >> testReceiverClassVar [
-	| text context |
+	| text context model |
 	text := 'testIt
-	ClassVar '.
+	ClassAnnotation so'.
 	context := self 
 		createContextFor: text
 		at: text size.
-	self assert: context receiverClass == ByteString
+	model := context model.
+	self assert: model class equals: NECTypedModel
 ]
 
 { #category : #tests }
 NECContextTest >> testReceiverConstant [
-	| text context |
+	| text context model |
 	text := 'testIt
-	15r16 printS'.
+	15r16 as'.
 	context := self createContextFor: text at: text size.
-	self assert: context receiverClass == SmallInteger.
+	model := context model.
+	self assert: ((model entries collect: #contents) includes: #as31BitSmallInt).
+	
 	text := 'testIt
-	''test'' printS'.
+	''test'' pre'.
 	context := self createContextFor: text at: text size.
-	self assert: context receiverClass == ByteString.
+	model := context model.
+	self assert: ((model entries collect: #contents) includes: #prefixMatchesRegex:).
+	
 	text := 'testIt
-	true ifTrue:'.
+	true ifTr'.
 	context := self createContextFor: text at: text size.
-	self assert: context receiverClass == True.
+	model := context model.
+	self assert: ((model entries collect: #contents) includes: #ifTrue:ifFalse:).
+	
 	text := 'testIt
 	false  "this is it"
-		printStr'.
+		xo'.
 	context := self createContextFor: text at: text size.
-	self assert: context receiverClass == False.
+	model := context model.
+	self assert: ((model entries collect: #contents) includes: #xor:).
+	
 	text := 'testIt
-	a _ [ :test | test * test ] 
-		v'.
+	a := [ :test | test * test ] 
+		as'.
 	context := self createContextFor: text at: text size.
-	self assert: context receiverClass == BlockClosure.
+	model := context model.
+	self assert: ((model entries collect: #contents) includes: #asMinimalRepresentation).
+	
 	text := 'testIt
 	$c as'.
 	context := self createContextFor: text at: text size.
-	self assert: context receiverClass == Character.
+	model := context model.
+	self assert: ((model entries collect: #contents) includes: #asciiValue).
+	
 	text := 'testIt
-	#gaga as'.
+	#gaga un'.
 	context := self createContextFor: text at: text size.
-	self assert: context receiverClass == Symbol.
+	model := context model.
+	self assert: ((model entries collect: #contents) includes: #uncapitalized).
+	
 	text := 'testIt
 	#( 1 2 3) as'.
 	context := self createContextFor: text at: text size.
-	self assert: context receiverClass == Array.
+	model := context model.
+	self assert: ((model entries collect: #contents) includes: #asByteArray).
+	
 	text:='testIt
-	2r1.1e2 as'.
+	2r1.1e2 ba'.
 	context := self createContextFor: text at: text size.
-	self assert: (context receiverClass includesBehavior: Float).
+	model := context model.
+	self assert: ((model entries collect: #contents) includes: #basicIdentityHash).
+	
 	text:='testIt
 	23s32 as'.
 	context := self createContextFor: text at: text size.
-	self assert: context receiverClass == ScaledDecimal.
-
+	model := context model.
+	self assert: ((model entries collect: #contents) includes: #asFraction).
 ]
 
 { #category : #tests }
