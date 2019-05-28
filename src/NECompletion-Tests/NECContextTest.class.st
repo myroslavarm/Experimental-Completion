@@ -94,11 +94,13 @@ NECContextTest >> testCreateModel [
 	aRectangle printS'.
 	context := self createContextFor: text at: text size.
 	model := context model.
-	self assert: model class == NECTypedModel.
+	self assert: model class equals: NECTypedModel.
+	
 	text := 'testIt:'.
 	context := self createContextFor: text at: text size.
 	model := context model.
 	self assert: model class equals: NECUntypedModel.
+	
 	text := 'testIt: rect
 	rect is'.
 	context := self createContextFor: text at: text size.
@@ -129,8 +131,10 @@ NECContextTest >> testReceiverArgument [
 	context := self 
 		createContextFor: text
 		at: text size.
+	self assert: context receiverClass == Rectangle.
 	model := context model.
 	self assert: ((model entries collect: #contents) includes: #printString).
+	
 	text := 'testIt: rect
 	rect is'.
 	context := self 
@@ -167,14 +171,17 @@ NECContextTest >> testReceiverCascade [
 		nextPut: $c with: true;
 		s'.
 	context := self createContextFor: text at: text size.
+	self assert: context receiverClass == Stream.
 	model := context model.
 	self assert: ((model entries collect: #contents) includes: #stepTime).
+	
 	text := 'testIt: aStream
 	aStream
 		nextPutAll: ''test''; 
 		nextPut: $c with: true;
 		s'.
 	context := self createContextFor: text at: text size.
+	self assert: context receiverClass == Stream.
 	model := context model.
 	self assert: ((model entries collect: #contents) includes: #stepTime).
 ]
