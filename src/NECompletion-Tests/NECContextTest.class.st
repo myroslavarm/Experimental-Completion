@@ -359,8 +359,8 @@ NECContextTest >> testReceiverTempVar3 [
 	"case 1 guess from constant"
 	text := 'testIt
 	| a b |
-	a _ ''test''.
-	b _ 10.
+	a := ''test''.
+	b := 10.
 	a as'.
 	context := self 
 		createContextFor: text
