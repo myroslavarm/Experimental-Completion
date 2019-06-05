@@ -84,10 +84,9 @@ CompletionContext >> narrowWith: aString [
 
 { #category : #parsing }
 CompletionContext >> parseSource [
-    (theClass isNil)
-        ifTrue: [ ast :=  RBParser parseFaultyExpression: source ]
-        ifFalse: [ ast := RBParser parseFaultyMethod: source ]. 
-    ast doSemanticAnalysisIn: theClass.
+	ast := (theClass isNil)
+        ifTrue: [ (RBParser parseFaultyExpression: source) doSemanticAnalysis]
+        ifFalse: [ (RBParser parseFaultyMethod: source) doSemanticAnalysisIn: theClass]. 
     TypingVisitor new visitNode: ast.
 ]
 

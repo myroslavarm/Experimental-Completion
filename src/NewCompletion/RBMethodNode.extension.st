@@ -7,6 +7,6 @@ RBMethodNode >> completionToken [
 
 { #category : #'*NewCompletion' }
 RBMethodNode >> doSemanticAnalysisIn: behavior [
-    behavior ifNotNil: [self methodClass: behavior].
-    self doSemanticAnalysis
+	self methodClass: behavior.
+	self doSemanticAnalysis
 ]
