@@ -84,11 +84,10 @@ CompletionContext >> narrowWith: aString [
 
 { #category : #parsing }
 CompletionContext >> parseSource [
-	(theClass = UndefinedObject) 
-		ifTrue: [ ast :=  RBParser parseFaultyExpression: source ]
-		ifFalse: [ ast := RBParser parseFaultyMethod: source ]. 
-	ast doSemanticAnalysis.
-	TypingVisitor new visitNode: ast.
+	ast := (theClass isNil)
+        ifTrue: [ (RBParser parseFaultyExpression: source) doSemanticAnalysis]
+        ifFalse: [ (RBParser parseFaultyMethod: source) doSemanticAnalysisIn: theClass]. 
+    TypingVisitor new visitNode: ast.
 ]
 
 { #category : #accessing }
@@ -101,7 +100,7 @@ CompletionContext >> receiverClass [
 { #category : #'initialize-release' }
 CompletionContext >> setController: aECController class: aClass source: aString position: anInteger [ 
 	controller := aECController.
-	theClass := aClass ifNil: [ UndefinedObject ].
+	theClass := aClass.
 	source := aString.
 	position := anInteger. 
 	self parseSource.

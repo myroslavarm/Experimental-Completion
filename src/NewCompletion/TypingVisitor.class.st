@@ -60,7 +60,7 @@ TypingVisitor >> visitLiteralNode: aLiteralNode [
 
 { #category : #visiting }
 TypingVisitor >> visitSelfNode: aSelfNode [
-	 aSelfNode propertyAt: #type put: aSelfNode methodNode methodClass
+	aSelfNode propertyAt: #type put: aSelfNode methodNode methodClass
 ]
 
 { #category : #visiting }
