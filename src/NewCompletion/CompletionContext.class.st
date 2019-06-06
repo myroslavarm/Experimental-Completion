@@ -71,8 +71,7 @@ CompletionContext >> createModel [
 
 { #category : #accessing }
 CompletionContext >> model [
-	model isNil ifTrue: [ model := self createModel ].
-	^ model
+    ^model ifNil: [ model := self createModel ]
 ]
 
 { #category : #action }
