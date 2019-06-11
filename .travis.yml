@@ -1,0 +1,17 @@
+language: smalltalk
+
+os:
+  - linux
+  - osx
+  - windows
+
+smalltalk_vm:
+  - Pharo-5.0
+
+smalltalk:
+  - Pharo-alpha
+  - Pharo-stable
+  - Pharo-8.0
+  - Pharo-7.0
+  - Pharo-6.0
+  - Pharo-5.0
