@@ -78,13 +78,14 @@ NECContextTest >> testCompletionToken [
 
 { #category : #tests }
 NECContextTest >> testCompletionTokenEmpty [
-	| text context |
+	| text context model |
 	text := 'testIt: aRectangle
 	| abc |
 	test.
 	abc daf '.
 	context := self createContextFor: text at: text size.
-	self assert: context completionToken = ''
+	model := context model.
+	self assert: (model entries collect: #contents) isEmpty
 ]
 
 { #category : #tests }
@@ -94,12 +95,12 @@ NECContextTest >> testCreateModel [
 	aRectangle printS'.
 	context := self createContextFor: text at: text size.
 	model := context model.
-	self assert: model class equals: NECTypedModel.
+	self assert: model class equals: NECUntypedModel.
 	
 	text := 'testIt:'.
 	context := self createContextFor: text at: text size.
 	model := context model.
-	self assert: model class equals: NECUntypedModel.
+	self assert: (model entries collect: #contents) isEmpty.
 	
 	text := 'testIt: rect
 	rect is'.
@@ -131,7 +132,6 @@ NECContextTest >> testReceiverArgument [
 	context := self 
 		createContextFor: text
 		at: text size.
-	self assert: context receiverClass == Rectangle.
 	model := context model.
 	self assert: ((model entries collect: #contents) includes: #printString).
 	
@@ -409,14 +409,15 @@ NECContextTest >> testTemporaries [
 
 { #category : #tests }
 NECContextTest >> testUnfinishedString [
-	| text context |
+	| text context model |
 	text := 'testIt: aRectangle
 	| a b c |
 	self test: ''test it and so'.
 	context := self 
 		createContextFor: text
 		at: text size.
-	self assert: context completionToken equals: 'so'
+	model := context model.
+	self assert: (model entries collect: #contents) isEmpty.
 ]
 
 { #category : #tests }
@@ -424,45 +425,10 @@ NECContextTest >> testUntypedSelectorsOnly [
 	| text context model |
 	text := 'testIt: aRectangle
 	| ab bc bd |
-	ab '.
+	ab'.
 	context := self createContextFor: text at: text size.
 	model := context model.
 	self assert: model hasMessage.
-	self assert: model message equals: 'press key for selectors'.
 	context narrowWith: 'ab'.
 	self assert: ((model entries collect: #contents) includes: #abs)
-]
-
-{ #category : #tests }
-NECContextTest >> testUntypedVarsOnly [
-	self checkUntypedVariablesOnly: 'testIt
-	'.
-	self checkUntypedVariablesOnly: '+ aTest
-	'.
-	self checkUntypedVariablesOnly: 'gaga: aTest
-	'.
-	self checkUntypedVariablesOnly: 'gaga
-	^ '.
-	self checkUntypedVariablesOnly: 'testIt 
-	a ifTrue:[ '.
-	self checkUntypedVariablesOnly: 'testIt 
-	a ifTrue:[ :each'.
-	self checkUntypedVariablesOnly: 'testIt 
-	a ifTrue:[ :each |'.
-	self checkUntypedVariablesOnly: 'testIt 
-	a ifTrue:[ :each | '.
-	self checkUntypedVariablesOnly: 'testIt
-	<primitive: 67> 
-	'.
-	self checkUntypedVariablesOnly: 'testIt
-	ab _'.
-	self checkUntypedVariablesOnly: 'testIt
-	ab _ '.
-	self checkUntypedVariablesOnly: 'self compare: '.
-	self checkUntypedVariablesOnly: 'self compare: x caseSensitive: '.
-	self checkUntypedVariablesOnly: 'self gaga: x gugu: ('.
-	self checkUntypedVariablesOnly: 'testIt
-	a _ 15 + '.
-	self checkUntypedVariablesOnly: 'testIt
-	self hugatada: '
 ]
