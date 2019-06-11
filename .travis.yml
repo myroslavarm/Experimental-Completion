@@ -1,12 +1,10 @@
 language: smalltalk
 
+sudo: false
+
 os:
   - linux
   - osx
-  - windows
-
-smalltalk_vm:
-  - Pharo-5.0
 
 smalltalk:
   - Pharo-alpha
