@@ -27,45 +27,6 @@ NECContextTest >> createContextFor: aString at: anInteger [
 ]
 
 { #category : #tests }
-NECContextTest >> testBlockTemporaries [
-	| text temps context |
-	text := 'testIt
-	| a b c |
-	a _ [ :each | |d | ^d].
-	^self'.
-	context := self 
-		createContextFor: text
-		at: 39.
-	temps := context temporaries collect: [ :each | each contents ].
-	self assert: temps size = 5.
-	self assert: temps first = 'a'.
-	self assert: temps second = 'b'.
-	self assert: temps third = 'c'.
-	self assert: temps fourth = 'each'.
-	self assert: temps fifth = 'd'
-]
-
-{ #category : #tests }
-NECContextTest >> testBlockTemporariesBoxed [
-	| text temps context |
-	text := 'testIt
-	| a b c |
-	a := [ :each | |d | d = a ifTrue:[ |x|  ] ifFalse:[ |y|.
-	^self'.
-	context := self 
-		createContextFor: text
-		at: 73.
-	temps := context temporaries collect: [ :each | each contents ].
-	self assert: temps size = 5.
-	self assert: temps first = 'a'.
-	self assert: temps second = 'b'.
-	self assert: temps third = 'c'.
-	self assert: temps fourth = 'each'.
-	self assert: temps fifth = 'd'.
-
-]
-
-{ #category : #tests }
 NECContextTest >> testCompletionToken [
 	| text context |
 	text := 'testIt: aRectangle
@@ -78,14 +39,13 @@ NECContextTest >> testCompletionToken [
 
 { #category : #tests }
 NECContextTest >> testCompletionTokenEmpty [
-	| text context model |
+	| text context |
 	text := 'testIt: aRectangle
 	| abc |
 	test.
 	abc daf '.
 	context := self createContextFor: text at: text size.
-	model := context model.
-	self assert: (model entries collect: #contents) isEmpty
+	self assert: context completionToken equals: ''
 ]
 
 { #category : #tests }
@@ -387,24 +347,6 @@ NECContextTest >> testReceiverTempVar3 [
 		at: text size.
 	model := context model.
 	self assert: model class equals: NECUntypedModel
-]
-
-{ #category : #tests }
-NECContextTest >> testTemporaries [
-	| text temps context |
-	text := 'testIt: aRectangle
-	| a b c |
-	a := [ :each | |d | ^d].
-	^ self'.
-	context := self 
-		createContextFor: text
-		at: text size.
-	temps := context temporaries collect: [ :each | each contents ].
-	self assert: temps size equals: 4.
-	self assert: temps first equals: 'aRectangle'.
-	self assert: temps second equals: 'a'.
-	self assert: temps third equals: 'b'.
-	self assert: temps fourth equals: 'c'.
 ]
 
 { #category : #tests }
