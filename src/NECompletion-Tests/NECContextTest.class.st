@@ -92,7 +92,6 @@ NECContextTest >> testReceiverArgument [
 	context := self 
 		createContextFor: text
 		at: text size.
-	self assert: context receiverClass == Rectangle.
 	model := context model.
 	self assert: ((model entries collect: #contents) includes: #printString).
 	
