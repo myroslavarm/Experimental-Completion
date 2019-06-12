@@ -45,7 +45,7 @@ NECContextTest >> testCompletionTokenEmpty [
 	test.
 	abc daf '.
 	context := self createContextFor: text at: text size.
-	self assert: context completionToken = ''
+	self assert: context completionToken equals: ''
 ]
 
 { #category : #tests }
