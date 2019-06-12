@@ -9,7 +9,4 @@ os:
 smalltalk:
   - Pharo-alpha
   - Pharo-stable
-  - Pharo-8.0
   - Pharo-7.0
-  - Pharo-6.0
-  - Pharo-5.0
