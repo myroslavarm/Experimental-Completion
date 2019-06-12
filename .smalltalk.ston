@@ -1,9 +1,8 @@
 SmalltalkCISpec {
   #loading : [
     SCIMetacelloLoadSpec {
-      #baseline : 'MyProject',
-      #directory : 'packages',
-      #platforms : [ #pharo ]
+      #baseline : 'ExperimentalCompletion',
+      #directory : 'src'
     }
   ]
 }
