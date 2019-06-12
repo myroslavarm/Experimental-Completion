@@ -352,14 +352,15 @@ NECContextTest >> testReceiverTempVar3 [
 
 { #category : #tests }
 NECContextTest >> testUnfinishedString [
-	| text context |
+	| text context model |
 	text := 'testIt: aRectangle
 	| a b c |
 	self test: ''test it and so'.
 	context := self 
 		createContextFor: text
 		at: text size.
-	self assert: context completionToken equals: 'so'
+	model := context model.
+	self assert: (model entries collect: #contents) isEmpty.
 ]
 
 { #category : #tests }
