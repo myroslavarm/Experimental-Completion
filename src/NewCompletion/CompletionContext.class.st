@@ -52,6 +52,11 @@ CompletionContext >> context: aCompletionContext [
 
 { #category : #accessing }
 CompletionContext >> createModel [
+	^ (CompletionModel new node: node) clazz: theClass
+]
+
+{ #category : #accessing }
+CompletionContext >> createModel2 [
 	"to be implemented"
 	node isNil ifTrue: [ ^NECEmptyModel new ].
 	node isLiteralNode ifTrue: [ ^NECEmptyModel new ].
