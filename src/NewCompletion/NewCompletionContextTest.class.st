@@ -367,7 +367,7 @@ NewCompletionContextTest >> testUntypedSelectorsOnly [
 	| text context model |
 	text := 'testIt: aRectangle
 	| ab bc bd |
-	ab '.
+	ab'.
 	context := self createContextFor: text at: text size.
 	model := context model.
 	self assert: model hasMessage.
