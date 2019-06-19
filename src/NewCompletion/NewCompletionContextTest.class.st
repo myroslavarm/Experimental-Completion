@@ -19,8 +19,8 @@ NewCompletionContextTest >> checkUntypedVariablesOnly: aString [
 
 { #category : #private }
 NewCompletionContextTest >> createContextFor: aString at: anInteger [ 
-	^ CompletionContext
-		controller: CompletionController new
+	^ NECContext
+		controller: NECController new
 		class: NECTestClass
 		source: aString
 		position: anInteger
