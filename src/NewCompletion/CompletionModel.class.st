@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'clazz',
 		'node',
-		'completionToken'
+		'completionToken',
+		'currentClass'
 	],
 	#category : #'NewCompletion-Model'
 }
