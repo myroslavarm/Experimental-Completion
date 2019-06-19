@@ -12,3 +12,13 @@ Some functionality (mainly the CompletionContext class) was added to hook the ne
 ![alt text](https://github.com/myroslavarm/Experimental-Completion/blob/master/github.png)
 
 So far this is still a work in progress: as of now only some of the basic typing functionality was done to actually be used by the system, most of the actual NewCompletion improvements are yet to replace the old functionality.
+
+#### Development process:
+
+When the repository is first loaded and the message says 'uncommitted changes' it might be better to reload the specific packages.
+
+As for the branches, all the main (approved changes) go in the master branch. At the moment the development branch has the code for creating a single model instead of the three different ones. At different points there might also be miscellaneous branches for separate pull requests with small changes.
+
+> For now, the classes in the Mock subpackage, CompletionEngine, MatchedNodeProducer are only used for testing. MatchingRecentlyUsed is not yet fully completed and therefore doesn't work.
+
+
