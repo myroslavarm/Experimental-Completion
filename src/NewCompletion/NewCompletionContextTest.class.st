@@ -49,27 +49,6 @@ NewCompletionContextTest >> testCompletionTokenEmpty [
 ]
 
 { #category : #tests }
-NewCompletionContextTest >> testCreateModel [
-	| text context model |
-	text := 'testIt: aRectangle
-	aRectangle printS'.
-	context := self createContextFor: text at: text size.
-	model := context model.
-	self assert: model class equals: NECUntypedModel.
-	
-	text := 'testIt:'.
-	context := self createContextFor: text at: text size.
-	model := context model.
-	self assert: (model entries collect: #contents) isEmpty.
-	
-	text := 'testIt: rect
-	rect is'.
-	context := self createContextFor: text at: text size.
-	model := context model.
-	self assert: model class equals: NECUntypedModel
-]
-
-{ #category : #tests }
 NewCompletionContextTest >> testEmpty [
 	self createContextFor: '' at: 0
 ]
