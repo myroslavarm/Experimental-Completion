@@ -33,6 +33,11 @@ MatchedNodeProducer >> visitArgumentNode: anArgumentNode [
 	^ self visitVariableNode: anArgumentNode
 ]
 
+{ #category : #'as yet unclassified' }
+MatchedNodeProducer >> visitGlobalNode: aRBGlobalNode [ 
+	^ self visitVariableNode: aRBGlobalNode 
+]
+
 { #category : #visiting }
 MatchedNodeProducer >> visitLiteralNode: aRBLiteralValueNode [
 	
