@@ -52,7 +52,6 @@ CompletionContext >> context: aCompletionContext [
 
 { #category : #accessing }
 CompletionContext >> createModel [
-	"to be implemented"
 	node isNil ifTrue: [ ^NECEmptyModel new ].
 	node isLiteralNode ifTrue: [ ^NECEmptyModel new ].
 	node isMethod ifTrue: [ ^NECEmptyModel new ].
@@ -60,7 +59,7 @@ CompletionContext >> createModel [
 		ifNotNil: [^ NECTypedModel class: receiverClass].
 	variables := false. selectors  := true.
 	node isMessage ifFalse: [  variables := true. selectors  := true ].
-	"self context: model."
+
 	^ NECUntypedModel
 		class: theClass
 		temporaries: (ast isMethod ifTrue: [ ast temporaryNames ] ifFalse: [ #() ])
