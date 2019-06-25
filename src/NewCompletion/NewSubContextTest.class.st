@@ -4,6 +4,11 @@ Class {
 	#category : #'NewCompletion-Tests'
 }
 
+{ #category : #testing }
+NewSubContextTest class >> shouldInheritSelectors [
+	^ true
+]
+
 { #category : #private }
 NewSubContextTest >> createContextFor: aString at: anInteger [ 
 	^ CompletionContext
