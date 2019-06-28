@@ -7,8 +7,7 @@ Class {
 	#instVars : [
 		'clazz',
 		'node',
-		'completionToken',
-		'currentClass'
+		'completionToken'
 	],
 	#category : #'NewCompletion-Model'
 }
@@ -73,7 +72,7 @@ CompletionModel >> message [
 		ifFalse: [nil]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #action }
 CompletionModel >> narrowWith: aString [ 
 	completionToken := aString.
 	aString isNil ifTrue: [ completionToken := '' ]
