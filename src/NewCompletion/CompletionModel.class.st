@@ -1,3 +1,6 @@
+"
+I am a model class which is used instead of the typed, untyped and empty NECModel's.
+"
 Class {
 	#name : #CompletionModel,
 	#superclass : #Object,
@@ -30,12 +33,6 @@ CompletionModel >> completionAt: aNumber [
 		ifTrue: [ entry, ' ' ]
 		ifFalse: [ entry ]. 
 	
-	
-]
-
-{ #category : #accessing }
-CompletionModel >> doesNotUnderstand: aMessage [
-	self halt.
 	
 ]
 

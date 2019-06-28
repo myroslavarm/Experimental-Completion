@@ -33,7 +33,7 @@ MatchedNodeProducer >> visitArgumentNode: anArgumentNode [
 	^ self visitVariableNode: anArgumentNode
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #visiting }
 MatchedNodeProducer >> visitGlobalNode: aRBGlobalNode [ 
 	^ self visitVariableNode: aRBGlobalNode 
 ]
@@ -58,6 +58,11 @@ MatchedNodeProducer >> visitMessageNode:  aRBMessageNode [
 ]
 
 { #category : #visiting }
+MatchedNodeProducer >> visitMethodNode: aRBMethodNode [ 
+	^#()
+]
+
+{ #category : #visiting }
 MatchedNodeProducer >> visitNode: aNode [ 
 	^aNode acceptVisitor: self
 ]
@@ -71,6 +76,11 @@ MatchedNodeProducer >> visitParseErrorNode: aRBLiteralValueNode [
 { #category : #visiting }
 MatchedNodeProducer >> visitPragmaNode: aPragmaNode [
 	^ self select: Symbol allSymbols beginningWith: aPragmaNode selector
+]
+
+{ #category : #visiting }
+MatchedNodeProducer >> visitSelfNode: aRBSelfNode [ 
+	^ self visitVariableNode: aRBSelfNode 
 ]
 
 { #category : #visiting }
