@@ -34,7 +34,7 @@ NewCompletionContextTest >> testCompletionToken [
 	test.
 	abc daf'.
 	context := self createContextFor: text at: text size.
-	self assert: context completionToken = 'daf'
+	self assert: context completionToken equals: 'daf'
 ]
 
 { #category : #tests }
@@ -81,7 +81,7 @@ NewCompletionContextTest >> testInTheMiddelOfAWord [
 	context := self 
 		createContextFor: text
 		at: 4.
-	self assert: context completionToken = 'haga'
+	self assert: context completionToken equals: 'haga'
 ]
 
 { #category : #tests }
@@ -352,14 +352,15 @@ NewCompletionContextTest >> testReceiverTempVar3 [
 
 { #category : #tests }
 NewCompletionContextTest >> testUnfinishedString [
-	| text context |
+	| text context model |
 	text := 'testIt: aRectangle
 	| a b c |
 	self test: ''test it and so'.
 	context := self 
 		createContextFor: text
 		at: text size.
-	self assert: context completionToken equals: 'so'
+	model := context model.
+	self assert: (model entries collect: #contents) isEmpty.
 ]
 
 { #category : #tests }

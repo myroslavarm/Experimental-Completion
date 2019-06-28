@@ -65,7 +65,7 @@ CompletionContext >> createModel2 [
 		ifNotNil: [^ NECTypedModel class: receiverClass].
 	variables := false. selectors  := true.
 	node isMessage ifFalse: [  variables := true. selectors  := true ].
-	"self context: model."
+
 	^ NECUntypedModel
 		class: theClass
 		temporaries: (ast isMethod ifTrue: [ ast temporaryNames ] ifFalse: [ #() ])
