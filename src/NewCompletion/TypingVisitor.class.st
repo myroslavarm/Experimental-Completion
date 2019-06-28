@@ -18,6 +18,11 @@ TypingVisitor >> initialize [
 ]
 
 { #category : #visiting }
+TypingVisitor >> visitArrayNode: aLiteralNode [
+	 aLiteralNode propertyAt: #type put: Array
+]
+
+{ #category : #visiting }
 TypingVisitor >> visitAssignmentNode: anAssignmentNode [
 	"if not a temporary variable - return.
 	if no type return.
@@ -51,6 +56,11 @@ TypingVisitor >> visitBlockNode: aBlockNode [
 { #category : #visiting }
 TypingVisitor >> visitGlobalNode: aGlobalNode [
 	aGlobalNode propertyAt: #type put: (Smalltalk globals at: aGlobalNode name) class.
+]
+
+{ #category : #visiting }
+TypingVisitor >> visitLiteralArrayNode: aLiteralNode [
+	 aLiteralNode propertyAt: #type put: Array
 ]
 
 { #category : #visiting }

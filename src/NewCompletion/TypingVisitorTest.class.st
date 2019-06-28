@@ -54,8 +54,18 @@ TypingVisitorTest >> testBlockSameType [
 	TypingVisitor new visitNode: ast.
 	self assert: ast variableNodes isNotEmpty.
 	node := ast variableNodes fourth.
-	self assert: ((node propertyAt: #type) isClass and:
-			[ (node propertyAt: #type) = SmallInteger ] )
+	self assert: (node propertyAt: #type) isClass.
+	self assert: (node propertyAt: #type) equals: SmallInteger
+]
+
+{ #category : #tests }
+TypingVisitorTest >> testDynamicLiteralArray [
+	| ast |
+
+ 	ast := RBParser parseExpression: '{1 . 2 . 3}'.
+	TypingVisitor new visitNode: ast.
+
+ 	self assert: (ast propertyAt: #type) equals: Array
 ]
 
 { #category : #tests }
@@ -80,6 +90,16 @@ TypingVisitorTest >> testLiteral [
 
 	ast nodesDo: [ :each | each isLiteralNode ifTrue: 
 			[ self assert: ((each propertyAt: #type) inheritsFrom: Object) ] ]
+]
+
+{ #category : #tests }
+TypingVisitorTest >> testLiteralArray [
+	| ast |
+
+ 	ast := RBParser parseExpression: '#( 1 2 3 )'.
+	TypingVisitor new visitNode: ast.
+
+ 	self assert: (ast propertyAt: #type) equals: Array
 ]
 
 { #category : #tests }
