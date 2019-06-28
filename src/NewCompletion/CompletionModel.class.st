@@ -25,6 +25,22 @@ CompletionModel >> clazz: anObject [
 ]
 
 { #category : #accessing }
+CompletionModel >> commonPrefix [
+	"Longest match among the typed text and all menu entries"
+
+	| entries seed matchLengths prefixLength |
+	entries := self entries.
+	seed := entries first contents asString.
+	matchLengths := entries allButFirst
+		collect: [ :entry | seed charactersExactlyMatching: entry contents asString ]
+		thenSelect: [ :e | e >= completionToken size ].
+	prefixLength := matchLengths isEmpty
+		ifTrue: [ 0 ]
+		ifFalse: [ matchLengths min ].
+	^ seed first: prefixLength.
+]
+
+{ #category : #accessing }
 CompletionModel >> completionAt: aNumber [
 	| entry |
 	
@@ -73,10 +89,17 @@ CompletionModel >> message [
 		ifFalse: [nil]
 ]
 
+{ #category : #accessing }
+CompletionModel >> narrowString [
+	
+	^ completionToken
+]
+
 { #category : #'as yet unclassified' }
 CompletionModel >> narrowWith: aString [ 
-	completionToken := aString.
-	aString isNil ifTrue: [ completionToken := '' ]
+
+	completionToken := aString ifNil: [  '' ].
+	node narrowWith: completionToken.
 ]
 
 { #category : #accessing }
@@ -97,9 +120,5 @@ CompletionModel >> notEmpty [
 { #category : #accessing }
 CompletionModel >> title [
 
-	| type |
-	[
-	type := node receiver propertyAt: #type ifAbsent: [ ^ 'dunno' ].
-	^ type name
-	] on: Error do: [ :e | ^ e messageText ]
+	^ (node typeForCompletionIfAbsent: [ ^ '' ]) name
 ]

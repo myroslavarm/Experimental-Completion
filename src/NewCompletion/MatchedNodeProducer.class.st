@@ -41,9 +41,19 @@ MatchedNodeProducer >> visitGlobalNode: aRBGlobalNode [
 { #category : #visiting }
 MatchedNodeProducer >> visitLiteralNode: aRBLiteralValueNode [
 	
+	| results |
 	(aRBLiteralValueNode value isKindOf: Symbol) ifFalse: [ ^#() ].
 	"return all symbols that start with value"
-	^ self select: Symbol allSymbols beginningWith: aRBLiteralValueNode value
+	
+	results := OrderedCollection new.
+	Symbol allSymbolTablesDo: [ :symbol |
+		(symbol beginsWith: aRBLiteralValueNode value)
+			ifTrue: [ results add: symbol ].
+		results size >= 10 ifTrue: [ ^ results ]
+	].
+	^ results
+	"
+	^ self select: Symbol allSymbols beginningWith: aRBLiteralValueNode value"
 ]
 
 { #category : #accessing }
