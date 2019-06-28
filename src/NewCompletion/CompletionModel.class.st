@@ -96,5 +96,10 @@ CompletionModel >> notEmpty [
 
 { #category : #accessing }
 CompletionModel >> title [
-	^ 'todo'
+
+	| type |
+	[
+	type := node receiver propertyAt: #type ifAbsent: [ ^ 'dunno' ].
+	^ type name
+	] on: Error do: [ :e | ^ e messageText ]
 ]
