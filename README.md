@@ -1,24 +1,27 @@
 # Experimental-Completion
 
-This is my internship/GSoC2019 project. The goal of it is to improve the code completion in Pharo. For that I structured my completion tool into three main classes: the matcher (MatchedNodeProducer), the completer (CompletionEngine) and the sorter (Sorter). There are also several tests classes. At the moment the code completion returns the list of results that are possible considering the cursor position. To understand how it works one can use the spec (or just have a look at the tests).
+### Information about the project:
 
-The spec (which is in the NewCompletionSpec package) can be opened by executing:
-```smalltalk
-CompletionSpec new openWithSpec 
-```
+This is my internship/GSoC2019 project. The goal of it is to improve the code completion in Pharo.
 
-Some functionality (mainly the CompletionContext class) was added to hook the new completion into the system, using cleaned up and refactored code of the old completion. Using CompletionController the completion is appearing in the settings as the third completion option. It can be enabled by going to Settings Browser -> Code Browsing -> Code Completion, and then in the Controller section selecting CompletionController (see screenshot; NECController would represent the completion used in Pharo by default):
+First, a test code completion engine was developed. For that, there are three main classes: the matcher (MatchedNodeProducer), the completer (CompletionEngine) and the sorter (Sorter), as well as the tests. The completion itself worked well (returned the list of possible results considering the cursor position).
+
+After that, to hook the completion into the system, we started reusing some of the functionality from the old completion. For example, CompletionContext is the main hooking point, in particular this is where the model is called. CompletionController helps set up the completion option in the settings. To enable our completion as the main one, you can go to Settings Browser -> Code Browsing -> Code Completion, and then in the Controller section selecting CompletionController (see screenshot; NECController would represent the completion used in Pharo by default):
 
 ![alt text](https://github.com/myroslavarm/Experimental-Completion/blob/master/github.png)
 
-So far this is still a work in progress: as of now only some of the basic typing functionality was done to actually be used by the system, most of the actual NewCompletion improvements are yet to replace the old functionality.
+TypingVisitor does the AST-based typing for the new completion. CompletionModel class is implemented to serve instead of the three separate NECModel subclasses: typed, untyped, and empty.
 
-#### Development process:
+So far this is still a work in progress so when something doesn't work and hasn't yet been mentioned in the "issues" for the project, we welcome the feedback.
 
-When the repository is first loaded and the message says 'uncommitted changes' it might be better to reload the specific packages.
+### Loading the repository:
 
-As for the branches, all the main (approved changes) go in the master branch. At the moment the development branch has the code for creating a single model instead of the three different ones. At different points there might also be miscellaneous branches for separate pull requests with small changes.
+When the repository is first loaded and the message says 'uncommitted changes' it might be better to reload the specific packages. All 5 packages should be loaded.
 
-> For now, the classes in the Mock subpackage, CompletionEngine, MatchedNodeProducer are only used for testing. MatchingRecentlyUsed is not yet fully completed and therefore doesn't work.
+After enabling the completion option in the settings, it can be tested hands-on&mdash;either in the Playground or the (Calypso) Editor. An intermediate version of code completion (which is basically a mix of the old and the new, for prior testing) has been already implemented into Pharo 8 and can be found in the settings as "TestCompletionController". Testing and feedback on that are also welcome.
 
+> Dev note: for now, the classes in the Mock subpackage, CompletionEngine, MatchedNodeProducer are only used for testing. MatchingRecentlyUsed is not yet fully completed and therefore doesn't work.
 
+### Roadmap for the project:
+
+Can be viewed [here](<https://medium.com/@myroslavarm/improving-code-completion-gsoc-2019-introduction-de36e106a12f>). And [here's](<https://medium.com/@myroslavarm/progress-with-code-completion-june-632e40a54553>) a blog post describing what has been done so far.
