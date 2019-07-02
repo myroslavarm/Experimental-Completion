@@ -96,8 +96,8 @@ CompletionModel >> node: anObject [
 ]
 
 { #category : #accessing }
-CompletionModel >> notEmpty [ 
-	^ self isEmpty not
+CompletionModel >> notEmpty [
+	^ self entries isNotEmpty
 ]
 
 { #category : #accessing }
