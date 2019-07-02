@@ -7,7 +7,8 @@ Class {
 	#instVars : [
 		'clazz',
 		'node',
-		'completionToken'
+		'completionToken',
+		'entries'
 	],
 	#category : #'NewCompletion-Model'
 }
@@ -37,11 +38,7 @@ CompletionModel >> completionAt: aNumber [
 
 { #category : #accessing }
 CompletionModel >> entries [
-	| producer temp |
-	producer := MatchedNodeProducer new.
-	producer completionContext: clazz.
-	temp := (producer completionListForNode: node) asOrderedCollection. 
-	^ temp collect: [ :each | NECGlobalEntry contents: each ]
+	^entries ifNil: [entries := self initEntries ].
 ]
 
 { #category : #accessing }
@@ -52,6 +49,15 @@ CompletionModel >> entryCount [
 { #category : #accessing }
 CompletionModel >> hasMessage [
 	^ self message notNil
+]
+
+{ #category : #accessing }
+CompletionModel >> initEntries [
+	| producer temp |
+	producer := MatchedNodeProducer new.
+	producer completionContext: clazz.
+	temp := (producer completionListForNode: node) asOrderedCollection. 
+	^ temp collect: [ :each | NECGlobalEntry contents: each ]
 ]
 
 { #category : #accessing }
@@ -75,7 +81,8 @@ CompletionModel >> message [
 { #category : #action }
 CompletionModel >> narrowWith: aString [ 
 	completionToken := aString.
-	aString isNil ifTrue: [ completionToken := '' ]
+	aString isNil ifTrue: [ completionToken := '' ].
+	entries := nil
 ]
 
 { #category : #accessing }
