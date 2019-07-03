@@ -89,6 +89,11 @@ MatchedNodeProducer >> visitSelfNode: aRBSelfNode [
 ]
 
 { #category : #visiting }
+MatchedNodeProducer >> visitSequenceNode: aRBSequenceNode [ 
+	^ #()
+]
+
+{ #category : #visiting }
 MatchedNodeProducer >> visitTemporaryNode: aNode [ 
 	"Sent *each time* a temporary node is found"
 	^ self visitVariableNode: aNode
