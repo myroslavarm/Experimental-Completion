@@ -52,6 +52,19 @@ NewSubContextTest >> testEmpty [
 ]
 
 { #category : #private }
+NewSubContextTest >> testExpressionInIncompleteParanthesis [
+	| text context model |
+	self skip: 'decide on how to fix or if at all necessary'.
+	text := 'testIt
+	1 + (1 si'.
+	context := self 
+		createContextFor: text
+		at: text size.
+	model := context model.
+	self assert: ((model entries collect: #contents) includes: #sign).
+]
+
+{ #category : #private }
 NewSubContextTest >> testInTheMiddelOfAWord [
 	| text context |
 	self skip: 'check why fails'.

@@ -75,6 +75,18 @@ NewCompletionContextTest >> testEmpty [
 ]
 
 { #category : #tests }
+NewCompletionContextTest >> testExpressionInIncompleteParanthesis [
+	| text context model |
+	text := 'testIt
+	1 + (1 si'.
+	context := self 
+		createContextFor: text
+		at: text size.
+	model := context model.
+	self assert: ((model entries collect: #contents) includes: #sign).
+]
+
+{ #category : #tests }
 NewCompletionContextTest >> testInTheMiddelOfAWord [
 	| text context |
 	text := 'hagada'.
