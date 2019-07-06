@@ -104,6 +104,11 @@ MatchedNodeProducer >> visitSequenceNode: aRBSequenceNode [
 ]
 
 { #category : #visiting }
+MatchedNodeProducer >> visitSuperNode: aSuperNode [
+	^ self visitVariableNode: aSuperNode
+]
+
+{ #category : #visiting }
 MatchedNodeProducer >> visitTemporaryNode: aNode [ 
 	"Sent *each time* a temporary node is found"
 	^ self visitVariableNode: aNode
