@@ -21,6 +21,16 @@ MatchedNodeProducer >> completionListForNode: aRBNode [
 	^ aRBNode acceptVisitor: self
 ]
 
+{ #category : #visiting }
+MatchedNodeProducer >> methodNames [
+	| messages |
+	messages := Set new.
+	self systemNavigation allBehaviorsDo:
+    	[ :b | messages addAll: b selectors].
+	^ messages
+	
+]
+
 { #category : #utilities }
 MatchedNodeProducer >> select: aCollection beginningWith: aString [
 	"Set withAll: is needed to convert potential IdentitySets to regular Sets"
@@ -64,7 +74,7 @@ MatchedNodeProducer >> visitMessageNode:  aRBMessageNode [
 
 { #category : #visiting }
 MatchedNodeProducer >> visitMethodNode: aRBMethodNode [ 
-	^#()
+	^ (self select: self methodNames beginningWith: aRBMethodNode selector)
 ]
 
 { #category : #visiting }

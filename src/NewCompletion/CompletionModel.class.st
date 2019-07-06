@@ -79,9 +79,15 @@ CompletionModel >> message [
 ]
 
 { #category : #action }
+CompletionModel >> narrowString [
+
+ 	^ completionToken
+]
+
+{ #category : #action }
 CompletionModel >> narrowWith: aString [ 
-	completionToken := aString.
-	aString isNil ifTrue: [ completionToken := '' ].
+	completionToken := aString ifNil: [  '' ].
+	node narrowWith: completionToken.
 	entries := nil
 ]
 
