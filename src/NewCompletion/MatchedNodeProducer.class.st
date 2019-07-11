@@ -130,6 +130,7 @@ MatchedNodeProducer >> visitVariableNode: aRBVariableNode [
 		(self select: aRBVariableNode methodNode temporaryNames beginningWith: aRBVariableNode name),
 		(self select: aRBVariableNode methodNode argumentNames beginningWith: aRBVariableNode name),
 		(self select: currentClass allClassVarNames beginningWith: aRBVariableNode name),
-		(self select: (currentClass allSharedPools flatCollect: [ :each | each classVarNames]) beginningWith: aRBVariableNode name).
+		(self select: (currentClass allSharedPools flatCollect: [ :each | each classVarNames]) beginningWith: aRBVariableNode name),
+		(self select: self methodNames beginningWith: aRBVariableNode name)
 
 ]
