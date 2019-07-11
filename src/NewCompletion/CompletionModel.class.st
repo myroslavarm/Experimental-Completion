@@ -14,6 +14,12 @@ Class {
 }
 
 { #category : #accessing }
+CompletionModel >> arrowString [
+
+ 	^ completionToken
+]
+
+{ #category : #accessing }
 CompletionModel >> clazz [
 	^ clazz
 ]
@@ -22,6 +28,22 @@ CompletionModel >> clazz [
 CompletionModel >> clazz: anObject [
 	clazz := anObject.
 	clazz isNil ifTrue: [ clazz := UndefinedObject ]
+]
+
+{ #category : #accessing }
+CompletionModel >> commonPrefix [
+	"Longest match among the typed text and all menu entries"
+
+ 	| seed matchLengths prefixLength |
+	entries := self entries.
+	seed := entries first contents asString.
+	matchLengths := entries allButFirst
+		collect: [ :entry | seed charactersExactlyMatching: entry contents asString ]
+		thenSelect: [ :e | e >= completionToken size ].
+	prefixLength := matchLengths isEmpty
+		ifTrue: [ 0 ]
+		ifFalse: [ matchLengths min ].
+	^ seed first: prefixLength.
 ]
 
 { #category : #accessing }
