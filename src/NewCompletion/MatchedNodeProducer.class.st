@@ -23,11 +23,7 @@ MatchedNodeProducer >> completionListForNode: aRBNode [
 
 { #category : #visiting }
 MatchedNodeProducer >> methodNames [
-	| messages |
-	messages := Set new.
-	self systemNavigation allBehaviorsDo:
-    	[ :b | messages addAll: b selectors].
-	^ messages
+	^ Symbol selectorTable
 	
 ]
 
