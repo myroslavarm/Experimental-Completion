@@ -76,6 +76,7 @@ MatchedNodeProducer >> visitMessageNode:  aRBMessageNode [
 
 { #category : #visiting }
 MatchedNodeProducer >> visitMethodNode: aRBMethodNode [ 
+	(self methodNames includes: aRBMethodNode) ifFalse:  [ ^#() ].
 	^ (self select: self methodNames beginningWith: aRBMethodNode selector)
 ]
 

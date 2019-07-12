@@ -17,6 +17,11 @@ CompletionEntry class >> contents: aString [
 ]
 
 { #category : #accessing }
+CompletionEntry >> completion [
+	^ self contents asSymbol
+]
+
+{ #category : #accessing }
 CompletionEntry >> contents [
 	^contents
 ]
