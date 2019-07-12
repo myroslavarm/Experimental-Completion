@@ -79,7 +79,7 @@ CompletionModel >> initEntries [
 	producer := MatchedNodeProducer new.
 	producer completionContext: clazz.
 	temp := (producer completionListForNode: node) asOrderedCollection. 
-	^ temp collect: [ :each | NECGlobalEntry contents: each ]
+	^ temp collect: [ :each | CompletionEntry contents: each ]
 ]
 
 { #category : #accessing }
