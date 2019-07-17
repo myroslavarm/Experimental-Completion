@@ -97,6 +97,11 @@ MatchedNodeProducer >> visitPragmaNode: aPragmaNode [
 ]
 
 { #category : #visiting }
+MatchedNodeProducer >> visitReturnNode: aNode [
+	^ aNode value acceptVisitor: self
+]
+
+{ #category : #visiting }
 MatchedNodeProducer >> visitSelfNode: aRBSelfNode [ 
 	^ self visitVariableNode: aRBSelfNode 
 ]
