@@ -10,11 +10,6 @@ RBMethodNode >> bestNodeFor: anInterval [
 ]
 
 { #category : #'*NECompletion' }
-RBMethodNode >> completionToken [
-	^ ''
-]
-
-{ #category : #'*NECompletion' }
 RBMethodNode >> signatureInterval [
     "return the interval of the method signature as parsed from the source"
     (self numArgs = 0) ifTrue: [ ^1 to: self keywordsIntervals first last  ].
