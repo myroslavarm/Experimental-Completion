@@ -14,7 +14,7 @@ The architecture is like this:
 - TypingVisitor for assigning types to nodes
 - CompletionSorter for establishing various sorting strategies
 
-If you go to Settings Browser -> Code Browsing -> Code Completion you can choose between CompletionController (our completion) and NECController (old completion) for the Controller, and (right now) between AlphabeticalSorter and ReverseAlphabeticalSorter for the Sorter.
+If you go to Settings Browser -> Code Browsing -> Code Completion you can choose between CompletionController (our completion) and NECController (old completion) for the Controller, and (right now) between AlphabeticSorter and ReverseAlphabeticSorter for the Sorter. Later we want to have an n-gram based and an OCOompletion-inspired sorting strategies.
 
 ![alt-text](https://github.com/myroslavarm/Experimental-Completion/blob/master/gsoc1.PNG)
 
